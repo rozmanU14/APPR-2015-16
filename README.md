@@ -5,10 +5,32 @@ Avtor: Urška Rožman
 
 Repozitorij z gradivi pri predmetu APPR v študijskem letu 2015/16.
 
-## Tematika
+## Tematika: 
 
-Izbrali si boste temo, s katero se bo vaš projekt ukvarjal. Tukaj boste
-napisali, kje ste dobili podatke, ter kakšen je vaš cilj.
+Izbrala sem si temo z naslovom Analiza naravnega prirastka v Sloveniji in primerjava naravnega prirastka z drugimi Evropskimi državami. Najprej bom atančneje bom analizirala rodnost, umrljivost in naravni prirastek v Sloveniji po regijah in spolu. V tabeli bom navedla naslednje podatke za 10 let (od 2005-2014):
+ - ime regije (imenska spremenljivka)
+ - leto (številska spremenljivka)
+ - število živorojenih moških (številska spremenljivka)
+ - število živorojenih ženske (številska spremenljivka)
+ - število umrlih moških (številska spremenljivka)
+ - število umrlih žensk (številska spremenljivka)
+ - naravni prirastek moških (številska spremenljivka)
+ - naravni prirastek žensk (številska spremenljivka)
+ - skupni naravni prirastek (urejenostna spremenljivka)
+Kasneje pa bom analizirala še naravni prirastek Evropskih držav. V taveli bom navedla naslednje podatke prav tako za obdobje desetih let):
+- ime države (imenska spremenljivka)
+- skupni naravni prirastek(številska spremenljivka)
+## Cilj:
+
+V projektu bom na podlagi zgornjih podatkov najprej ugotovila, v katerem kraju je največja rodnost glede na podano leto ter primerjala podatke med različnimi leti ter regijami. Izračunala bom povprečno rodnost in smrtnost za posamezno regijo glede na časovni interval. Izračun bom ločila med izračun za moške, ženske in skupno. 
+Izračunala bom maksimalno in minimalno rodnost po regijah ter jih med sabo primerjala.
+Nato bom s pomočjo uvoženih podatkov za naravni prirastek žensk in moških izračunala skupni naravni prirastek, ki ga bom nato primerjala z naravnim prirastkom drugih Evropskih držav. Dobljene rezultate bom prikazala tudi na zemljevidu.
+ 
+## Podatki:
+Podatke za projekt sem dobila na spletni strani EUROSTAT (druga tabela) in spletni strani Statističnega urada Republike Slovenije (prva tabela) . Da se bom ob izdelavi projekta naučila čim več, bom prvo tablo uzovila v CSV obliki, drugo pa v HTML obliki. 
+Povezave na podatke:
+- http://ec.europa.eu/eurostat/web/population-demography-migration-projections/births-fertitily-data/database
+- http://pxweb.stat.si/pxweb/Dialog/varval.asp?ma=05I1002S&ti=&path=../Database/Dem_soc/05_prebivalstvo/25_selitveno_gibanje/05_05I10_naravno_gibanje/&lang=2
 
 ## Program
 
