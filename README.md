@@ -7,7 +7,7 @@ Repozitorij z gradivi pri predmetu APPR v študijskem letu 2015/16.
 
 ## Tematika: 
 
-Izbrala sem si temo z naslovom Analiza naravnega prirastka v Sloveniji in primerjava naravnega prirastka z drugimi Evropskimi državami. Najprej bom natančneje bom analizirala rodnost, umrljivost in naravni prirastek v Sloveniji po regijah in spolu. V tabeli bom navedla naslednje podatke za 10 let (od 2005-2014):
+Izbrala sem si temo z naslovom Analiza naravnega prirastka v Sloveniji in primerjava naravnega prirastka z drugimi Evropskimi državami. Najprej bom natančneje analizirala rodnost, umrljivost in naravni prirastek v Sloveniji po regijah in spolu. V tabeli bom navedla naslednje podatke za 10 let (od 2005-2014):
  - ime regije (imenska spremenljivka)
  - leto (številska spremenljivka)
  - število živorojenih moških (številska spremenljivka)
