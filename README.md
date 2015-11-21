@@ -17,9 +17,12 @@ Izbrala sem si temo z naslovom Analiza naravnega prirastka v Sloveniji in primer
  - naravni prirastek moških (številska spremenljivka)
  - naravni prirastek žensk (številska spremenljivka)
  - skupni naravni prirastek (urejenostna spremenljivka)
+
 Kasneje pa bom analizirala še naravni prirastek Evropskih držav. V taveli bom navedla naslednje podatke prav tako za obdobje desetih let):
 - ime države (imenska spremenljivka)
 - skupni naravni prirastek(številska spremenljivka)
+
+
 ## Cilj:
 
 V projektu bom na podlagi zgornjih podatkov najprej ugotovila, v katerem kraju je največja rodnost glede na podano leto ter primerjala podatke med različnimi leti ter regijami. Izračunala bom povprečno rodnost in smrtnost za posamezno regijo glede na časovni interval. Izračun bom ločila med izračun za moške, ženske in skupno. 
