@@ -18,7 +18,7 @@ Izbrala sem si temo z naslovom Analiza naravnega prirastka v Sloveniji in primer
  - naravni prirastek žensk (številska spremenljivka)
  - skupni naravni prirastek (urejenostna spremenljivka)
 
-Kasneje bom analizirala še naravni prirastek Evropskih držav. V tabeli bom navedla naslednje podatke prav tako za obdobje desetih let):
+Kasneje bom analizirala še naravni prirastek Evropskih držav. V tabeli bom navedla naslednje podatke, prav tako za obdobje desetih let):
 - ime države (imenska spremenljivka)
 - skupni naravni prirastek(številska spremenljivka)
 
