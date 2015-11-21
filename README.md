@@ -18,16 +18,16 @@ Izbrala sem si temo z naslovom Analiza naravnega prirastka v Sloveniji in primer
  - naravni prirastek žensk (številska spremenljivka)
  - skupni naravni prirastek (urejenostna spremenljivka)
 
-Kasneje pa bom analizirala še naravni prirastek Evropskih držav. V taveli bom navedla naslednje podatke prav tako za obdobje desetih let):
+Kasneje bom analizirala še naravni prirastek Evropskih držav. V tabeli bom navedla naslednje podatke prav tako za obdobje desetih let):
 - ime države (imenska spremenljivka)
 - skupni naravni prirastek(številska spremenljivka)
 
 
 ## Cilj:
 
-V projektu bom na podlagi zgornjih podatkov najprej ugotovila, v katerem kraju je največja rodnost glede na podano leto ter primerjala podatke med različnimi leti ter regijami. Izračunala bom povprečno rodnost in smrtnost za posamezno regijo glede na časovni interval. Izračun bom ločila med izračun za moške, ženske in skupno. 
+V projektu bom na podlagi zgornjih podatkov najprej ugotovila, v katerem kraju je največja rodnost glede na podano leto ter primerjala podatke med različnimi leti ter regijami. Izračunala bom povprečno rodnost in smrtnost za posamezno regijo glede na leta. Izračun bom ločila med izračun za moške, ženske in skupno. 
 Izračunala bom maksimalno in minimalno rodnost po regijah ter jih med sabo primerjala.
-Nato bom s pomočjo uvoženih podatkov za naravni prirastek žensk in moških izračunala skupni naravni prirastek, ki ga bom nato primerjala z naravnim prirastkom drugih Evropskih držav. Dobljene rezultate bom prikazala tudi na zemljevidu.
+Nato bom s pomočjo uvoženih podatkov za naravni prirastek žensk in moških izračunala skupni naravni prirastek, ki ga bom nato primerjala z naravnim prirastkom drugih Evropskih držav po telih. Dobljene rezultate bom prikazala tudi na zemljevidu.
  
 ## Podatki:
 Podatke za projekt sem dobila na spletni strani EUROSTAT (druga tabela) in spletni strani Statističnega urada Republike Slovenije (prva tabela) . Da se bom ob izdelavi projekta naučila čim več, bom prvo tablo uzovila v CSV obliki, drugo pa v HTML obliki. 
