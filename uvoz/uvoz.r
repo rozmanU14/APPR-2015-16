@@ -2,7 +2,7 @@
 
 #Vektor, ki predstavlja imena stolpcev:
 nova.kolona<-c("kraj", "leto","živorojeni moški","živorojene ženske","umrli moški","umrle ženske","naravni prirast moški","naravni prirast ženske")
-^#Funkcija, ki uvozi podatke iz datoteke podatki.csv
+#Funkcija, ki uvozi podatke iz datoteke podatki.csv
 
 uvozi<-function(){
     return(read.csv2(file="podatki/prirastek.csv",
