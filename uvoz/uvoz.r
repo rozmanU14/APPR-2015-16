@@ -25,3 +25,11 @@ cat("Pretvorba stolpcev v številske spremenljivke...\n")
 
 #Naredimo novo kolono "skupni naravni prirastek"
 tabela["skupni prirast"]<-tabela$naravni.prirast.moški + tabela$naravni.prirast.ženske
+
+#Okenca, za katere ni podatka in so označena z "-", zamenjamo z "NA":
+> tabela$živorojeni.moški[tabela$živorojeni.moški == "-"] <- NA
+> tabela$živorojene.ženske[tabela$živorojene.ženske == "-"] <- NA
+> tabela$umrli.moški[tabela$umrli.moški == "-"] <- NA
+> tabela$umrle.ženske[tabela$umrle.ženske == "-"] <- NA
+> tabela$naravni.prirast.moški[tabela$naravni.prirast.moški == "-"] <- NA
+> tabela$naravni.prirast.ženske[tabela$naravni.prirast.ženske == "-"] <- NA
