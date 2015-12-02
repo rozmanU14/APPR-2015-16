@@ -16,12 +16,20 @@ uvozi<-function(){
 cat("Uvazam podatke o naravnem prirastku...\n")
 tabela<-uvozi()
 
+#Naredimo tabelo v kateri so vse občine
 obcine <- tabela[seq(1, nrow(tabela), 6), 1]
+#Naredimo tabelo kjer so podatki za vsako leto posebaj
 podatki <- list()
 for (i in 2:6) {
   podatki[[paste(tabela[i, "leto"])]] <- data.frame(tabela[seq(i, nrow(tabela), 6), c(-1, -2)], row.names = obcine)
 }
 
+#Naredimo tabelo, kjer so podatki za vsaki leto posebaj:
+tabela2010<-podattki[["2010"]]
+tabela2011<-podattki[["2011"]]
+tabela2012<-podattki[["2012"]]
+tabela2013<-podattki[["2013"]]
+tabela2014<-podattki[["2014"]]
 
 
 
@@ -48,9 +56,10 @@ tabela$naravni.prirast.moski[tabela$naravni.prirast.moski == "-"] <- NA
 tabela$naravni.prirast.zenske[tabela$naravni.prirast.zenske == "-"] <- NA
 
 
+#Uvozimo podatke iz datoteke evropa.html
 
 html <- file("podatki/evropa.html") %>% readLines()
-podatki <- grep("var dataValues", html, value = TRUE) %>%
+podatkiHTML <- grep("var dataValues", html, value = TRUE) %>%
   strapplyc('var dataValues="([^"]+)"') %>% .[[1]] %>%
   strsplit("|", fixed=TRUE) %>% unlist() %>%
   matrix(ncol=10, byrow=TRUE)
