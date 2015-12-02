@@ -25,11 +25,11 @@ for (i in 2:6) {
 }
 
 #Naredimo tabelo, kjer so podatki za vsaki leto posebaj:
-tabela2010<-podattki[["2010"]]
-tabela2011<-podattki[["2011"]]
-tabela2012<-podattki[["2012"]]
-tabela2013<-podattki[["2013"]]
-tabela2014<-podattki[["2014"]]
+tabela2010<-podatki[["2010"]]
+tabela2011<-podatki[["2011"]]
+tabela2012<-podatki[["2012"]]
+tabela2013<-podatki[["2013"]]
+tabela2014<-podatki[["2014"]]
 
 
 
@@ -64,3 +64,17 @@ podatkiHTML <- grep("var dataValues", html, value = TRUE) %>%
   strsplit("|", fixed=TRUE) %>% unlist() %>%
   matrix(ncol=10, byrow=TRUE)
 
+#Filtriramo podatke za leta
+
+podatkiLETA<- grep("var xValues", html, value=TRUE) %>%
+  strapplyc('var xValues="([^"]+)"') %>% .[[1]] %>%
+  strsplit("|", fixed=TRUE) %>% unlist() %>%
+  matrix(nrow=1)
+
+#Filtriramo podatke za države
+podatkiDRZAVE <- grep("yValues", html, value = TRUE) %>%
+  strapplyc('yValues="([^"]+)"') %>% .[[1]] %>%
+  strsplit("|", fixed=TRUE) %>% unlist() %>%
+  matrix(ncol=10, byrow=TRUE)
+
+novipodatkiDRZAVE<-podatkiDRZAVE[seq(8,514,9)]
