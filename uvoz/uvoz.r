@@ -64,17 +64,30 @@ podatkiHTML <- grep("var dataValues", html, value = TRUE) %>%
   strsplit("|", fixed=TRUE) %>% unlist() %>%
   matrix(ncol=10, byrow=TRUE)
 
-#Filtriramo podatke za leta
+#Znake "-","(b):" zamenjamo z NA:
+podatkiHTML[podatkiHTML == ":"] <- NA
+podatkiHTML[podatkiHTML == "(b):"] <- NA
 
+#izbrišemo del črk,ki se držijo številskih podatkov:
+podatkiHTML <- gsub("[(b)]", " ", podatkiHTML)
+podatkiHTML <- gsub("[(ep)]", " ", podatkiHTML)
+
+
+#Filtriramo podatke za leta
 podatkiLETA<- grep("var xValues", html, value=TRUE) %>%
   strapplyc('var xValues="([^"]+)"') %>% .[[1]] %>%
   strsplit("|", fixed=TRUE) %>% unlist() %>%
   matrix(nrow=1)
 
+#vektor vseh let:
+novipodatkiLETA<-podatkiLETA[seq(7,91,9)]
+
 #Filtriramo podatke za države
 podatkiDRZAVE <- grep("yValues", html, value = TRUE) %>%
   strapplyc('yValues="([^"]+)"') %>% .[[1]] %>%
   strsplit("|", fixed=TRUE) %>% unlist() %>%
-  matrix(ncol=10, byrow=TRUE)
-
+  matrix(ncol=1)
+#vekror vseh držav 
 novipodatkiDRZAVE<-podatkiDRZAVE[seq(8,514,9)]
+
+
