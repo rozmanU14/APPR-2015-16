@@ -48,12 +48,7 @@ tabela$naravni.prirast.moski <- as.integer(tabela$naravni.prirast.moski)
 tabela["skupni prirast"]<-tabela$naravni.prirast.moski + tabela$naravni.prirast.zenske
 
 #Okenca, za katere ni podatka in so oznacena z "-", zamenjamo z "NA":
-tabela$zivorojeni.moski[tabela$zivorojeni.moski == "-"] <- NA
-tabela$zivorojene.zenske[tabela$zivorojene.zenske == "-"] <- NA
-tabela$umrli.moski[tabela$umrli.moski == "-"] <- NA
-tabela$umrle.zenske[tabela$umrle.zenske == "-"] <- NA
-tabela$naravni.prirast.moski[tabela$naravni.prirast.moski == "-"] <- NA
-tabela$naravni.prirast.zenske[tabela$naravni.prirast.zenske == "-"] <- NA
+tabela[tabela == "-"] <- NA
 
 
 #Uvozimo podatke iz datoteke evropa.html
@@ -82,7 +77,7 @@ podatkiLETA<- grep("var xValues", html, value=TRUE) %>%
 #vektor vseh let:
 novipodatkiLETA<-podatkiLETA[seq(7,91,9)]
 
-#Filtriramo podatke za države
+#Filtriramo podatke za države (če vnesem vrednost "colnames" vrne vse države)
 podatkiDRZAVE <- grep("yValues", html, value = TRUE) %>%
   strapplyc('yValues="([^"]+)"') %>% .[[1]] %>%
   strsplit("|", fixed=TRUE) %>% unlist() %>%
