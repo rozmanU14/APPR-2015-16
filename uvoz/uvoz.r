@@ -37,6 +37,14 @@ for (i in 1:5) {
 }
 
 
+#Naredimo tabelo, kjer so podatki za vsaki leto posebaj:
+
+tabela2010<-podatki[["2010"]]
+tabela2011<-podatki[["2011"]]
+tabela2012<-podatki[["2012"]]
+tabela2013<-podatki[["2013"]]
+tabela2014<-podatki[["2014"]]
+
 #nariše za kraj
 tabela[tabela[["kraj"]] == "Beltinci",]
 
@@ -51,18 +59,23 @@ tabela$naravni.prirast.moski <- as.numeric(tabela$naravni.prirast.moski)
 
 
 #seštevanje dveh stolpcev in ustvarjanje novega
-tabela["skupni prirast"]<-tabela$naravni.prirast.moski+tabela$naravni.prirast.zenske
+tabela["skupni.prirast"]<-tabela$naravni.prirast.moski+ tabela$naravni.prirast.zenske
 
 #Okenca, za katere ni podatka in so oznacena z "-", zamenjamo z "NA":
 tabela[tabela == "-"] <- NA
 
-#Naredimo tabelo, kjer so podatki za vsaki leto posebaj:
+#naredimo nov stolpec v katerem skupni naravni prirastek kategoriziramo
+attach(tabela)
+kategorije<-c('pozitiven','negativen','ni prirastka')
+velikost<-"skupni.prirast"
+velikost[skupni.prirast==0]<-'ni prirastka'
+velikost[skupni.prirast < 0]<-'negativen'
+velikost[skupni.prirast>0]<-'pozitiven'
+velikost<-factor(velikost,levels=kategorije,ordered=TRUE)
+detach(tabela)
+dodatenstolpec<-data.frame(velikost)
+tabela<-data.frame(tabela,velikost)
 
-tabela2010<-podatki[["2010"]]
-tabela2011<-podatki[["2011"]]
-tabela2012<-podatki[["2012"]]
-tabela2013<-podatki[["2013"]]
-tabela2014<-podatki[["2014"]]
 
 
 
@@ -85,6 +98,8 @@ podatkiHTML[podatkiHTML == "(b):"] <- NA
 podatkiHTML <- gsub("[(b)]", " ", podatkiHTML)
 podatkiHTML <- gsub("[(ep)]", " ", podatkiHTML)
 podatkiHTML <- apply(podatkiHTML, 2, as.numeric)
+
+
 
 
 #Filtriramo podatke za leta
@@ -123,4 +138,9 @@ podatkiHTML<-podatkiHTML[-(29:31),]
 ptuj<-tabela[tabela[["kraj"]] == "Ptuj",]
 ggplot(data=ptuj, aes(y=umrle.zenske,x=leto)) + geom_point() 
 
+
+
+
+p<-ggplot(tabela) + aes(x = kraj, y = naravni.prirast.moski) + geom_point()
+p + aes(x = kraj, y = naravni.prirast.moski, color = leto) + geom_point()
 
