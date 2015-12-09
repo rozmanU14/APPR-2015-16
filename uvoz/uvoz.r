@@ -1,6 +1,7 @@
 
 library(dplyr)
 library(gsubfn)
+library(ggplot2)
 
 #Vektor, ki predstavlja imena stolpcev:
 nova.kolona<-c("kraj", "leto","zivorojeni moski","zivorojene zenske","umrli moski","umrle zenske","naravni prirast moski","naravni prirast zenske")
@@ -31,7 +32,7 @@ obcine <- tabela[seq(1, nrow(tabela), 5), 1]
 #Naredimo tabelo kjer so podatki za vsako leto posebaj
 podatki <- list()
 for (i in 1:5) {
-  podatki[[paste(tabela[i, "leto"])]] <- data.frame(tabela[seq(i, nrow(tabela), 5), c(-1, -2)], row.names = obcine)
+  podatki[[paste(tabela[i, "leto"])]] <- data.frame(tabela[seq(i, nrow(tabela), 5), c(-2)], row.names = NULL)
 }
 
 #Naredimo tabelo, kjer so podatki za vsaki leto posebaj:
@@ -48,15 +49,15 @@ tabela[tabela[["kraj"]] == "Beltinci",]
 
 #poskrbimo, da so stevilske spremenljivke res stevilske
 cat("Pretvorba stolpcev v stevilske spremenljivke...\n")
-tabela$zivorojeni.moski <- as.integer(tabela$zivorojeni.moski)
-tabela$zivorojene.zenske <- as.integer(tabela$zivorojene.zenske)
-tabela$umrle.zenske <- as.integer(tabela$umrle.zenske)
-tabela$umrli.moski <- as.integer(tabela$umrli.moski)
-tabela$naravni.prirast.zenske <- as.integer(tabela$naravni.prirast.zenske)
-tabela$naravni.prirast.moski <- as.integer(tabela$naravni.prirast.moski)
+tabela$zivorojeni.moski <- as.vector(tabela$zivorojeni.moski)
+tabela$zivorojene.zenske <- as.vector(tabela$zivorojene.zenske)
+tabela$umrle.zenske <- as.vector(tabela$umrle.zenske)
+tabela$umrli.moski <- as.vector(tabela$umrli.moski)
+tabela$naravni.prirast.zenske <- as.vector(tabela$naravni.prirast.zenske)
+tabela$naravni.prirast.moski <- as.vector(tabela$naravni.prirast.moski)
 
-#Naredimo novo kolono "skupni naravni prirastek"
-tabela["skupni prirast"]<-tabela$naravni.prirast.moski + tabela$naravni.prirast.zenske
+
+
 
 #Okenca, za katere ni podatka in so oznacena z "-", zamenjamo z "NA":
 tabela[tabela == "-"] <- NA
@@ -105,8 +106,18 @@ novipodatkiDRZAVE<-podatkiDRZAVE[seq(8,514,9)]
 podatkiHTML <- data.frame(podatkiHTML, row.names = novipodatkiDRZAVE)
 names(podatkiHTML) <- novipodatkiLETA
 
-#izbriše prvih 7 vrstic
+#izbriše prvih 7 stolpcev
 podatkiHTML<-podatkiHTML[-(1:7),]
 
-#izbrišemo prvih 6 stolpcev
+#izbrišemo nepotrebne vrstice
 podatkiHTML<-podatkiHTML[,-(1:6)]
+podatkiHTML<-podatkiHTML[-4,]
+podatkiHTML<-podatkiHTML[-(29:31),]
+
+
+
+#grafi
+ptuj<-tabela[tabela[["kraj"]] == "Ptuj",]
+ggplot(data=ptuj, aes(y=umrle.zenske,x=leto)) + geom_point() 
+
+
