@@ -16,12 +16,21 @@ uvozi<-function(){
 cat("Uvazam podatke o naravnem prirastku...\n")
 tabela<-uvozi()
 
+uredi <- function(tabela, x, y, z, max = nrow(tabela)) {
+  s <- seq(x, max, z+1)
+  tabela[t(matrix(x:max, ncol=length(s))), y] <- tabela[s, y]
+  tabela <-tabela[-s,]
+  return(tabela)
+}
+
+tabela <- uredi(tabela, 1, 1, 5)
+
 #Naredimo tabelo v kateri so vse občine
-obcine <- tabela[seq(1, nrow(tabela), 6), 1]
+obcine <- tabela[seq(1, nrow(tabela), 5), 1]
 #Naredimo tabelo kjer so podatki za vsako leto posebaj
 podatki <- list()
-for (i in 2:6) {
-  podatki[[paste(tabela[i, "leto"])]] <- data.frame(tabela[seq(i, nrow(tabela), 6), c(-1, -2)], row.names = obcine)
+for (i in 1:5) {
+  podatki[[paste(tabela[i, "leto"])]] <- data.frame(tabela[seq(i, nrow(tabela), 5), c(-1, -2)], row.names = obcine)
 }
 
 #Naredimo tabelo, kjer so podatki za vsaki leto posebaj:
@@ -32,7 +41,11 @@ tabela2013<-podatki[["2013"]]
 tabela2014<-podatki[["2014"]]
 
 
-
+#naredimo tabelo za vsak kraj posebaj
+poKrajih <- list()
+for i in (2:6){
+  podatki[[poKrajih(tabela[i,"kraj"])]]<-data.frame(tabela[seq(i,nrow(tabela),1)],row.names="kraj")
+  }
 
 
 #poskrbimo, da so stevilske spremenljivke res stevilske
@@ -66,6 +79,7 @@ podatkiHTML[podatkiHTML == "(b):"] <- NA
 #izbrišemo del črk,ki se držijo številskih podatkov:
 podatkiHTML <- gsub("[(b)]", " ", podatkiHTML)
 podatkiHTML <- gsub("[(ep)]", " ", podatkiHTML)
+podatkiHTML <- apply(podatkiHTML, 2, as.numeric)
 
 
 #Filtriramo podatke za leta
@@ -82,7 +96,16 @@ podatkiDRZAVE <- grep("yValues", html, value = TRUE) %>%
   strapplyc('yValues="([^"]+)"') %>% .[[1]] %>%
   strsplit("|", fixed=TRUE) %>% unlist() %>%
   matrix(ncol=1)
+
 #vekror vseh držav 
 novipodatkiDRZAVE<-podatkiDRZAVE[seq(8,514,9)]
 
+#podatke o letih, državah in prirastku združimo v tabelo
+podatkiHTML <- data.frame(podatkiHTML, row.names = novipodatkiDRZAVE)
+names(podatkiHTML) <- novipodatkiLETA
 
+#izbriše prvih 7 vrstic
+podatkiHTML<-podatkiHTML[-(1:7),]
+
+#izbrišemo prvih 6 stolpcev
+podatkiHTML<-podatkiHTML[,-(1:6)]
