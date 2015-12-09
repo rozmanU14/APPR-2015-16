@@ -36,14 +36,6 @@ for (i in 1:5) {
   podatki[[paste(tabela[i, "leto"])]] <- data.frame(tabela[seq(i, nrow(tabela), 5), c(-2)], row.names = NULL)
 }
 
-#Naredimo tabelo, kjer so podatki za vsaki leto posebaj:
-tabela2010<-podatki[["2010"]]
-tabela2011<-podatki[["2011"]]
-tabela2012<-podatki[["2012"]]
-tabela2013<-podatki[["2013"]]
-tabela2014<-podatki[["2014"]]
-
-
 
 #nariše za kraj
 tabela[tabela[["kraj"]] == "Beltinci",]
@@ -63,6 +55,15 @@ tabela["skupni prirast"]<-tabela$naravni.prirast.moski+tabela$naravni.prirast.ze
 
 #Okenca, za katere ni podatka in so oznacena z "-", zamenjamo z "NA":
 tabela[tabela == "-"] <- NA
+
+#Naredimo tabelo, kjer so podatki za vsaki leto posebaj:
+
+tabela2010<-podatki[["2010"]]
+tabela2011<-podatki[["2011"]]
+tabela2012<-podatki[["2012"]]
+tabela2013<-podatki[["2013"]]
+tabela2014<-podatki[["2014"]]
+
 
 
 
