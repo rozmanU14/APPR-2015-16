@@ -11,6 +11,7 @@ uvozi<-function(){
     return(read.csv2(file="podatki/prirastek.csv",
                     col.names=nova.kolona,
                     header=FALSE,
+                    na.strings = "-",
                     fileEncoding = "UTF-8"))
                 }
 #Zapisemo podatke v razpredelnivo tabela
@@ -49,15 +50,16 @@ tabela[tabela[["kraj"]] == "Beltinci",]
 
 #poskrbimo, da so stevilske spremenljivke res stevilske
 cat("Pretvorba stolpcev v stevilske spremenljivke...\n")
-tabela$zivorojeni.moski <- as.vector(tabela$zivorojeni.moski)
-tabela$zivorojene.zenske <- as.vector(tabela$zivorojene.zenske)
-tabela$umrle.zenske <- as.vector(tabela$umrle.zenske)
-tabela$umrli.moski <- as.vector(tabela$umrli.moski)
-tabela$naravni.prirast.zenske <- as.vector(tabela$naravni.prirast.zenske)
-tabela$naravni.prirast.moski <- as.vector(tabela$naravni.prirast.moski)
+tabela$zivorojeni.moski <- as.numeric(tabela$zivorojeni.moski)
+tabela$zivorojene.zenske <- as.numeric(tabela$zivorojene.zenske)
+tabela$umrle.zenske <- as.numeric(tabela$umrle.zenske)
+tabela$umrli.moski <- as.numeric(tabela$umrli.moski)
+tabela$naravni.prirast.zenske <- as.numeric(tabela$naravni.prirast.zenske)
+tabela$naravni.prirast.moski <- as.numeric(tabela$naravni.prirast.moski)
 
 
-
+#seštevanje dveh stolpcev in ustvarjanje novega
+tabela["skupni prirast"]<-tabela$naravni.prirast.moski+tabela$naravni.prirast.zenske
 
 #Okenca, za katere ni podatka in so oznacena z "-", zamenjamo z "NA":
 tabela[tabela == "-"] <- NA
