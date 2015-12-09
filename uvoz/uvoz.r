@@ -16,6 +16,7 @@ uvozi<-function(){
 cat("Uvazam podatke o naravnem prirastku...\n")
 tabela<-uvozi()
 
+#po krajih
 uredi <- function(tabela, x, y, z, max = nrow(tabela)) {
   s <- seq(x, max, z+1)
   tabela[t(matrix(x:max, ncol=length(s))), y] <- tabela[s, y]
@@ -41,12 +42,9 @@ tabela2013<-podatki[["2013"]]
 tabela2014<-podatki[["2014"]]
 
 
-#naredimo tabelo za vsak kraj posebaj
-poKrajih <- list()
-for i in (2:6){
-  podatki[[poKrajih(tabela[i,"kraj"])]]<-data.frame(tabela[seq(i,nrow(tabela),1)],row.names="kraj")
-  }
 
+#nariše za kraj
+tabela[tabela[["kraj"]] == "Beltinci",]
 
 #poskrbimo, da so stevilske spremenljivke res stevilske
 cat("Pretvorba stolpcev v stevilske spremenljivke...\n")
@@ -62,6 +60,9 @@ tabela["skupni prirast"]<-tabela$naravni.prirast.moski + tabela$naravni.prirast.
 
 #Okenca, za katere ni podatka in so oznacena z "-", zamenjamo z "NA":
 tabela[tabela == "-"] <- NA
+
+
+
 
 
 #Uvozimo podatke iz datoteke evropa.html
