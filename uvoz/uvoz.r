@@ -67,50 +67,6 @@ tabela2014<-podatki[["2014"]]
 #Okenca, za katere ni podatka in so oznacena z "-", zamenjamo z "NA":
 tabela[tabela == "-"] <- NA
 
-#naredimo nov stolpec v katerem skupni naravni prirastek kategoriziramo
-attach(tabela)
-kategorije<-c('pozitiven','negativen','ni prirastka')
-velikost<-"skupni.prirast"
-velikost[skupni.prirast==0]<-'ni prirastka'
-velikost[skupni.prirast < 0]<-'negativen'
-velikost[skupni.prirast>0]<-'pozitiven'
-velikost<-factor(velikost,levels=kategorije,ordered=TRUE)
-detach(tabela)
-dodatenstolpec<-data.frame(velikost)
-tabela<-data.frame(tabela,velikost)
-
-
-##############################################
-#grafi za leto 2010 pri katerih je prikazan naravni prirast, ki je ločen glede na velikost
-tabela2010["skupni.prirast"]<-tabela2010$naravni.prirast.moski+ tabela2010$naravni.prirast.zenske
-
-
-attach(tabela2010)
-kategorije<-c('pozitiven','negativen','ni prirastka')
-velikost<-"skupni.prirast"
-velikost[skupni.prirast==0]<-'ni prirastka'
-velikost[skupni.prirast < 0]<-'negativen'
-velikost[skupni.prirast>0]<-'pozitiven'
-velikost<-factor(velikost,levels=kategorije,ordered=TRUE)
-detach(tabela2010)
-dodatenstolpec<-data.frame(velikost)
-tabela2010<-data.frame(tabela,velikost)
-tabela2010<-tabela2010[,-11]
-
-
-ggplot(data=tabela2010 %>% filter(velikost=="negativen"), aes(x=kraj, y=skupni.prirast)) + geom_point()
-ggplot(data=tabela2010 %>% filter(velikost=="pozitiven"), aes(x=kraj, y=skupni.prirast)) + geom_point()
-ggplot(data=tabela2010 %>% filter(velikost=="ni prirastka"), aes(x=kraj, y=skupni.prirast)) + geom_point()
-
-
-#grafi
-ptuj<-tabela[tabela[["kraj"]] == "Ptuj",]
-ggplot(data=ptuj, aes(y=umrle.zenske,x=leto)) + geom_point() 
-
-
-#graf prikazuje naravni prirastek po krajih, barve pik razlikujejo leta
-p<-ggplot(tabela) + aes(x = kraj, y = naravni.prirast.moski) + geom_point()
-p + aes(x = kraj, y = naravni.prirast.moski, color = leto) + geom_point()
 
 #Uvozimo podatke iz datoteke evropa.html
 
@@ -164,4 +120,56 @@ podatkiHTML<-podatkiHTML[-(29:31),]
 
 
 
+
+
+
+
+#naredimo nov stolpec v katerem skupni naravni prirastek kategoriziramo
+attach(tabela)
+kategorije<-c('pozitiven','negativen','ni prirastka')
+velikost<-"skupni.prirast"
+velikost[skupni.prirast==0]<-'ni prirastka'
+velikost[skupni.prirast < 0]<-'negativen'
+velikost[skupni.prirast>0]<-'pozitiven'
+velikost<-factor(velikost,levels=kategorije,ordered=TRUE)
+detach(tabela)
+dodatenstolpec<-data.frame(velikost)
+tabela<-data.frame(tabela,velikost)
+
+
+##########################################################
+#grafi za leto 2010 pri katerih je prikazan naravni prirast, ki je ločen glede na velikost
+tabela2010["skupni.prirast"]<-tabela2010$naravni.prirast.moski+ tabela2010$naravni.prirast.zenske
+
+
+attach(tabela2010)
+kategorije<-c('pozitiven','negativen','ni prirastka')
+velikost<-"skupni.prirast"
+velikost[skupni.prirast==0]<-'ni prirastka'
+velikost[skupni.prirast < 0]<-'negativen'
+velikost[skupni.prirast>0]<-'pozitiven'
+velikost<-factor(velikost,levels=kategorije,ordered=TRUE)
+detach(tabela2010)
+dodatenstolpec<-data.frame(velikost)
+tabela2010<-data.frame(tabela,velikost)
+tabela2010<-tabela2010[,-11]
+
+
+ggplot(data=tabela2010 %>% filter(velikost=="negativen"), aes(x=kraj, y=skupni.prirast)) + geom_point()
+ggplot(data=tabela2010 %>% filter(velikost=="pozitiven"), aes(x=kraj, y=skupni.prirast)) + geom_point()
+ggplot(data=tabela2010 %>% filter(velikost=="ni prirastka"), aes(x=kraj, y=skupni.prirast)) + geom_point()
+
+#tabela ki prikaže kraje s skupnim prirastkom več kot 100
+ggplot(data=tabela %>% filter(skupni.prirast>100), aes(x=kraj, y=skupni.prirast,color=leto)) + geom_point()
+ggplot(data=tabela %>% filter(skupni.prirast>100), aes(x=kraj, y=skupni.prirast,color=leto)) + geom_point()
+
+
+#grafi
+ptuj<-tabela[tabela[["kraj"]] == "Ptuj",]
+ggplot(data=ptuj, aes(y=umrle.zenske,x=leto)) + geom_point() 
+
+
+#graf prikazuje naravni prirastek po krajih, barve pik razlikujejo leta
+p<-ggplot(tabela) + aes(x = kraj, y = naravni.prirast.moski) + geom_point()
+p + aes(x = kraj, y = naravni.prirast.moski, color = leto) + geom_point()
 
