@@ -46,9 +46,9 @@ Prva tabela vsebuje stolpce:
 - število umrlih žensk (številska spremenljivka)
  - prikazuje umrljivost žensk po krajih in letih
 - naravni prirastek moških (številska spremenljivka)
- -prikazuje naravni prirastek moških po krajih in letih
+ - prikazuje naravni prirastek moških po krajih in letih
 - naravni prirastek žensk (številska spremenljivka)
- -prikazuje naravni prirastek moških po krajih in letih
+ - prikazuje naravni prirastek moških po krajih in letih
 
 
 Te stolpce sem prečistila (mesta kjer ni bilo podatka sem zamenjala z NA), izbrisala nepotrebne stolpce in vrstice ter zagotovila, da bodo številske spremenljivke res številske. Tabelo sem ločila na pet pod tabel, ki so bile ločene glede na leto. Dodala sem stolpec "skupni.prirast" ki je seštevek naravnega prirasta moških in žensk. Da bi bilo filtriranje podatkov še lažje, sem dodala še stolpec "velikost" ki je urejenostna spremenljivka in sicer klasificira prirastek kot "pozitiven","negativen" oziroma "ni prirastka".
