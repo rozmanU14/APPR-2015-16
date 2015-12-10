@@ -18,7 +18,7 @@ uvozi<-function(){
 cat("Uvazam podatke o naravnem prirastku...\n")
 tabela<-uvozi()
 
-#po krajih
+#funkcija za zapis vrstic
 uredi <- function(tabela, x, y, z, max = nrow(tabela)) {
   s <- seq(x, max, z+1)
   tabela[t(matrix(x:max, ncol=length(s))), y] <- tabela[s, y]
@@ -172,4 +172,3 @@ ggplot(data=ptuj, aes(y=umrle.zenske,x=leto)) + geom_point()
 #graf prikazuje naravni prirastek po krajih, barve pik razlikujejo leta
 p<-ggplot(tabela) + aes(x = kraj, y = naravni.prirast.moski) + geom_point()
 p + aes(x = kraj, y = naravni.prirast.moski, color = leto) + geom_point()
-
