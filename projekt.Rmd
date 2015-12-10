@@ -35,14 +35,20 @@ Povezave na podatke:
 - http://pxweb.stat.si/pxweb/Dialog/varval.asp?ma=05I1002S&ti=&path=../Database/Dem_soc/05_prebivalstvo/25_selitveno_gibanje/05_05I10_naravno_gibanje/&lang=2
 
 Prva tabela vsebuje stolpce:
--  ime regije (imenska spremenljivka)
+- ime regije (imenska spremenljivka)
 - leto (številska spremenljivka)
 - število živorojenih moških (številska spremenljivka)
+ - prikazuje rodnost moških po krajih in letih
 - število živorojenih ženske (številska spremenljivka)
+ - prikazuje rodnost žensk po krajih in letih
 - število umrlih moških (številska spremenljivka)
+ - prikazuje umrljivost moških po krajih in leti
 - število umrlih žensk (številska spremenljivka)
+ - prikazuje umrljivost žensk po krajih in letih
 - naravni prirastek moških (številska spremenljivka)
+ -prikazuje naravni prirastek moških po krajih in letih
 - naravni prirastek žensk (številska spremenljivka)
+ -prikazuje naravni prirastek moških po krajih in letih
 
 
 Te stolpce sem prečistila (mesta kjer ni bilo podatka sem zamenjala z NA), izbrisala nepotrebne stolpce in vrstice ter zagotovila, da bodo številske spremenljivke res številske. Tabelo sem ločila na pet pod tabel, ki so bile ločene glede na leto. Dodala sem stolpec "skupni.prirast" ki je seštevek naravnega prirasta moških in žensk. Da bi bilo filtriranje podatkov še lažje, sem dodala še stolpec "velikost" ki je urejenostna spremenljivka in sicer klasificira prirastek kot "pozitiven","negativen" oziroma "ni prirastka".
