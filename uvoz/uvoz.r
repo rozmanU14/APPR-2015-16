@@ -37,13 +37,7 @@ for (i in 1:5) {
 }
 
 
-#Naredimo tabelo, kjer so podatki za vsaki leto posebaj:
 
-tabela2010<-podatki[["2010"]]
-tabela2011<-podatki[["2011"]]
-tabela2012<-podatki[["2012"]]
-tabela2013<-podatki[["2013"]]
-tabela2014<-podatki[["2014"]]
 
 #nariše za kraj
 tabela[tabela[["kraj"]] == "Beltinci",]
@@ -61,6 +55,15 @@ tabela$naravni.prirast.moski <- as.numeric(tabela$naravni.prirast.moski)
 #seštevanje dveh stolpcev in ustvarjanje novega
 tabela["skupni.prirast"]<-tabela$naravni.prirast.moski+ tabela$naravni.prirast.zenske
 
+
+#Naredimo tabelo, kjer so podatki za vsaki leto posebaj:
+
+tabela2010<-podatki[["2010"]]
+tabela2011<-podatki[["2011"]]
+tabela2012<-podatki[["2012"]]
+tabela2013<-podatki[["2013"]]
+tabela2014<-podatki[["2014"]]
+
 #Okenca, za katere ni podatka in so oznacena z "-", zamenjamo z "NA":
 tabela[tabela == "-"] <- NA
 
@@ -77,10 +80,37 @@ dodatenstolpec<-data.frame(velikost)
 tabela<-data.frame(tabela,velikost)
 
 
+##############################################
+#grafi za leto 2010 pri katerih je prikazan naravni prirast, ki je ločen glede na velikost
+tabela2010["skupni.prirast"]<-tabela2010$naravni.prirast.moski+ tabela2010$naravni.prirast.zenske
 
 
+attach(tabela2010)
+kategorije<-c('pozitiven','negativen','ni prirastka')
+velikost<-"skupni.prirast"
+velikost[skupni.prirast==0]<-'ni prirastka'
+velikost[skupni.prirast < 0]<-'negativen'
+velikost[skupni.prirast>0]<-'pozitiven'
+velikost<-factor(velikost,levels=kategorije,ordered=TRUE)
+detach(tabela2010)
+dodatenstolpec<-data.frame(velikost)
+tabela2010<-data.frame(tabela,velikost)
+tabela2010<-tabela2010[,-11]
 
 
+ggplot(data=tabela2010 %>% filter(velikost=="negativen"), aes(x=kraj, y=skupni.prirast)) + geom_point()
+ggplot(data=tabela2010 %>% filter(velikost=="pozitiven"), aes(x=kraj, y=skupni.prirast)) + geom_point()
+ggplot(data=tabela2010 %>% filter(velikost=="ni prirastka"), aes(x=kraj, y=skupni.prirast)) + geom_point()
+
+
+#grafi
+ptuj<-tabela[tabela[["kraj"]] == "Ptuj",]
+ggplot(data=ptuj, aes(y=umrle.zenske,x=leto)) + geom_point() 
+
+
+#graf prikazuje naravni prirastek po krajih, barve pik razlikujejo leta
+p<-ggplot(tabela) + aes(x = kraj, y = naravni.prirast.moski) + geom_point()
+p + aes(x = kraj, y = naravni.prirast.moski, color = leto) + geom_point()
 
 #Uvozimo podatke iz datoteke evropa.html
 
@@ -134,13 +164,4 @@ podatkiHTML<-podatkiHTML[-(29:31),]
 
 
 
-#grafi
-ptuj<-tabela[tabela[["kraj"]] == "Ptuj",]
-ggplot(data=ptuj, aes(y=umrle.zenske,x=leto)) + geom_point() 
-
-
-
-
-p<-ggplot(tabela) + aes(x = kraj, y = naravni.prirast.moski) + geom_point()
-p + aes(x = kraj, y = naravni.prirast.moski, color = leto) + geom_point()
 
