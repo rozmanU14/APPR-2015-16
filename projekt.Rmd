@@ -35,7 +35,7 @@ Povezave na podatke:
 - http://pxweb.stat.si/pxweb/Dialog/varval.asp?ma=05I1002S&ti=&path=../Database/Dem_soc/05_prebivalstvo/25_selitveno_gibanje/05_05I10_naravno_gibanje/&lang=2
 
 Prva tabela vsebuje stolpce:
-- ime regije (imenska spremenljivka)
+- ime kraja (imenska spremenljivka)
 - leto (številska spremenljivka)
 - število živorojenih moških (številska spremenljivka)
  - prikazuje rodnost moških po krajih in letih
