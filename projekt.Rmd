@@ -43,6 +43,8 @@ Prva tabela vsebuje stolpce:
 - število umrlih žensk (številska spremenljivka)
 - naravni prirastek moških (številska spremenljivka)
 - naravni prirastek žensk (številska spremenljivka)
+
+
 Te stolpce sem prečistila (mesta kjer ni bilo podatka sem zamenjala z NA), izbrisala nepotrebne stolpce in vrstice ter zagotovila, da bodo številske spremenljivke res številske. Tabelo sem ločila na pet pod tabel, ki so bile ločene glede na leto. Dodala sem stolpec "skupni.prirast" ki je seštevek naravnega prirasta moških in žensk. Da bi bilo filtriranje podatkov še lažje, sem dodala še stolpec "velikost" ki je urejenostna spremenljivka in sicer klasificira prirastek kot "pozitiven","negativen" oziroma "ni prirastka".
 
 Druga tabela, ki je bila uvožena v HTML obliki vsebuje podatke o naravnem prirastku evropskih držav. Najprej sem uvozila zgolj podatke o prirastku ki so klicani z eno spremenljivko,ter jih dala v matriko, kasneje pa še podatke o letih merjenja ter državah. Ko sem prečistila nepotrebne podatke (zamenjava znakov "-","("b") z NA, ter pri vektorju držav in let napotrebne znake med željenimi državami) sem podatke, države in leta združila v eno tabelo. Ker želim analizirati le podatke od 2010-2013 sem ostale stolpce izbrisala. 
