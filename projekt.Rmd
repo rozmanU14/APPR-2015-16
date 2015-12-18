@@ -25,9 +25,10 @@ Izbrala sem si temo z naslovom Analiza naravnega prirastka v Sloveniji in primer
 
 # Obdelava, uvoz in čiščenje podatkov
 
-```{r uvoz, echo=FALSE}
+```{r uvoz, echo=FALSE,message=FALSE,warning=FALSE}
 source("uvoz/uvoz.r", encoding = "UTF-8")
 ```
+
 Podatke za prvo tabelo sem dobila na spletni strani statističnega urada Slovenije ter jih uvozila v CSV obliki, podatke za drugo tabelo pa sem v HTML obliki uvozila iz spletne strani EUROSTAT.
 
 Povezave na podatke:
@@ -56,7 +57,7 @@ Te stolpce sem prečistila (mesta kjer ni bilo podatka sem zamenjala z NA), izbr
 Druga tabela, ki je bila uvožena v HTML obliki vsebuje podatke o naravnem prirastku evropskih držav. Najprej sem uvozila zgolj podatke o prirastku ki so klicani z eno spremenljivko,ter jih dala v matriko, kasneje pa še podatke o letih merjenja ter državah. Ko sem prečistila nepotrebne podatke (zamenjava znakov "-","("b") z NA, ter pri vektorju držav in let napotrebne znake med željenimi državami) sem podatke, države in leta združila v eno tabelo. Ker želim analizirati le podatke od 2010-2013 sem ostale stolpce izbrisala. 
 
 ```{r razpredelnice}
-kable(head(druzine))
+kable(head(tabela))
 head(obcine)
 ```
 

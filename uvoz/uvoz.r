@@ -12,7 +12,8 @@ uvozi<-function(){
                     col.names=nova.kolona,
                     header=FALSE,
                     na.strings = "-",
-                    fileEncoding = "UTF-8"))
+                    fileEncoding = "UTF-8",
+                    as.is = FALSE))
                 }
 #Zapisemo podatke v razpredelnivo tabela
 cat("Uvazam podatke o naravnem prirastku...\n")
@@ -33,7 +34,7 @@ obcine <- tabela[seq(1, nrow(tabela), 5), 1]
 #Naredimo tabelo kjer so podatki za vsako leto posebaj
 podatki <- list()
 for (i in 1:5) {
-  podatki[[paste(tabela[i, "leto"])]] <- data.frame(tabela[seq(i, nrow(tabela), 5), c(-2)], row.names = NULL)
+  podatki[[paste(tabela[i, "leto"])]] <- data.frame(tabela[seq(i, nrow(tabela), 5), c(-2)], row.names = NULL, stringsAsFactors = FALSE)
 }
 
 
@@ -58,11 +59,25 @@ tabela["skupni.prirast"]<-tabela$naravni.prirast.moski+ tabela$naravni.prirast.z
 
 #Naredimo tabelo, kjer so podatki za vsaki leto posebaj:
 
+
 tabela2010<-podatki[["2010"]]
 tabela2011<-podatki[["2011"]]
 tabela2012<-podatki[["2012"]]
 tabela2013<-podatki[["2013"]]
 tabela2014<-podatki[["2014"]]
+
+
+tabela2010["skupni.prirast"]<-tabela2010$naravni.prirast.moski+ tabela2010$naravni.prirast.zenske
+tabela2011["skupni.prirast"]<-tabela2011$naravni.prirast.moski+ tabela2011$naravni.prirast.zenske
+tabela2012["skupni.prirast"]<-tabela2012$naravni.prirast.moski+ tabela2012$naravni.prirast.zenske
+tabela2013["skupni.prirast"]<-tabela2013$naravni.prirast.moski+ tabela2013$naravni.prirast.zenske
+tabela2014["skupni.prirast"]<-tabela2014$naravni.prirast.moski+ tabela2014$naravni.prirast.zenske
+
+tabela2010$skupni.prirast<-as.numeric(tabela2010$skupni.prirast)
+tabela2011$skupni.prirast<-as.numeric(tabela2011$skupni.prirast)
+tabela2012$skupni.prirast<-as.numeric(tabela2012$skupni.prirast)
+tabela2013$skupni.prirast<-as.numeric(tabela2013$skupni.prirast)
+tabela2014$skupni.prirast<-as.numeric(tabela2014$skupni.prirast)
 
 #Okenca, za katere ni podatka in so oznacena z "-", zamenjamo z "NA":
 tabela[tabela == "-"] <- NA
@@ -121,9 +136,6 @@ podatkiHTML<-podatkiHTML[-(29:31),]
 
 
 
-
-
-
 #naredimo nov stolpec v katerem skupni naravni prirastek kategoriziramo
 attach(tabela)
 kategorije<-c('pozitiven','negativen','ni prirastka')
@@ -172,3 +184,26 @@ ggplot(data=ptuj, aes(y=umrle.zenske,x=leto)) + geom_point()
 #graf prikazuje naravni prirastek po krajih, barve pik razlikujejo leta
 p<-ggplot(tabela) + aes(x = kraj, y = naravni.prirast.moski) + geom_point()
 p + aes(x = kraj, y = naravni.prirast.moski, color = leto) + geom_point()
+#####################################################################
+#ZEMLJEVIDI
+
+source("lib/uvozi.zemljevid.r", encoding = "UTF-8")
+library(ggplot2)
+library(dplyr)
+
+pretvori.zemljevid <- function(zemljevid) {
+  fo <- fortify(zemljevid)
+  data <- zemljevid@data
+  data$id <- as.character(0:(nrow(data)-1))
+  return(inner_join(fo, data, by="id"))
+}
+obc <- uvozi.zemljevid("http://e-prostor.gov.si/fileadmin/BREZPLACNI_POD/RPE/OB.zip",
+                          "OB/OB", encoding = "Windows-1250")
+obc <- obc[order(as.character(obc$OB_UIME)),]
+rownames(tabela2011) <- tabela2011$kraj
+tabela2011["Ankaran",] <- rep(NA, ncol(tabela2011))
+tabela2011$kraj <- rownames(tabela2011)
+tabela2011 <- tabela2011[order(tabela2011$kraj),]
+obc$NARAVNI_PRIRAST<-tabela2011$skupni.prirast
+obc <- pretvori.zemljevid(obc)
+
