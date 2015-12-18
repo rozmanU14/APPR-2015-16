@@ -205,5 +205,6 @@ tabela2011["Ankaran",] <- rep(NA, ncol(tabela2011))
 tabela2011$kraj <- rownames(tabela2011)
 tabela2011 <- tabela2011[order(tabela2011$kraj),]
 obc$NARAVNI_PRIRAST<-tabela2011$skupni.prirast
-obc <- pretvori.zemljevid(obc)
+#obc <- pretvori.zemljevid(obc)
+
 
