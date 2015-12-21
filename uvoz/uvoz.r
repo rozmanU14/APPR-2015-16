@@ -141,9 +141,9 @@ podatkiHTML<-podatkiHTML[-(29:31),]
 ##########################################################
 #grafi za leto 2010 pri katerih je prikazan naravni prirast, ki je ločen glede na velikost
 
-ggplot(data=tabela2010 %>% filter(velikost=="negativen"), aes(x=kraj, y=skupni.prirast)) + geom_point()
-ggplot(data=tabela2010 %>% filter(velikost=="pozitiven"), aes(x=kraj, y=skupni.prirast)) + geom_point()
-ggplot(data=tabela2010 %>% filter(velikost=="ni prirastka"), aes(x=kraj, y=skupni.prirast)) + geom_point()
+negativen.prirast2010<-ggplot(data=tabela2010 %>% filter(velikost=="negativen"), aes(x=kraj, y=skupni.prirast)) + geom_point()
+pozitiven.prirast2011<-ggplot(data=tabela2010 %>% filter(velikost=="pozitiven"), aes(x=kraj, y=skupni.prirast)) + geom_point()
+ni.prirasta2010<-ggplot(data=tabela2010 %>% filter(velikost=="ni prirastka"), aes(x=kraj, y=skupni.prirast)) + geom_point()
 
 #tabela ki prikaže kraje s skupnim prirastkom več kot 100
 ggplot(data=tabela %>% filter(skupni.prirast>100), aes(x=kraj, y=skupni.prirast,color=leto)) + geom_point()
@@ -158,6 +158,12 @@ ggplot(data=ptuj, aes(y=umrle.zenske,x=leto)) + geom_point()
 #graf prikazuje naravni prirastek po krajih, barve pik razlikujejo leta
 p<-ggplot(tabela) + aes(x = kraj, y = naravni.prirast.moski) + geom_point()
 p + aes(x = kraj, y = naravni.prirast.moski, color = leto) + geom_point()
+
+
+ggplot(data=tabela2014,aes(y=umrli.moski,x =kraj),color="blue")+geom_point()+geom_point(aes(y=umrle.zenske,x=kraj),color="yellow")+geom_point()+geom_point(aes(y=skupni.prirast,x=kraj),color="orange")
+
+
+                                                                                                      
 #####################################################################
 #ZEMLJEVIDI
 
@@ -221,9 +227,5 @@ ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill =
   scale_fill_gradient(low="#a65353", high= "#582b2b") +
   guides(fill = guide_colorbar(title = "Rodnost 2011"))
 
-
-ggplot(data=tabela%>%filter(velikost),
-       aes(velikost))+ geom_bar(stat="identity",fill="seagreen3",size=3) + 
-  coord_flip()+ facet_wrap(~ velikost)
 
 
