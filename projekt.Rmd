@@ -57,9 +57,9 @@ Te stolpce sem prečistila (mesta kjer ni bilo podatka sem zamenjala z NA), izbr
 Druga tabela, ki je bila uvožena v HTML obliki vsebuje podatke o naravnem prirastku evropskih držav. Najprej sem uvozila zgolj podatke o prirastku ki so klicani z eno spremenljivko,ter jih dala v matriko, kasneje pa še podatke o letih merjenja ter državah. Ko sem prečistila nepotrebne podatke (zamenjava znakov "-","("b") z NA, ter pri vektorju držav in let napotrebne znake med željenimi državami) sem podatke, države in leta združila v eno tabelo. Ker želim analizirati le podatke od 2010-2013 sem ostale stolpce izbrisala. 
 
 Nato sem narisala še nekaj grafov.
-#negativen.prirast2010
-#pozitiven.prirast2010
-#ni.prirasta2010
+negativen.prirast2010
+pozitiven.prirast2010
+ni.prirasta2010
 
 ```{r razpredelnice}
 kable(head(tabela))
