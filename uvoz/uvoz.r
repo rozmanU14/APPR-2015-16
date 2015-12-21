@@ -52,6 +52,7 @@ tabela$naravni.prirast.moski <- as.numeric(tabela$naravni.prirast.moski)
 
 #seštevanje dveh stolpcev in ustvarjanje novega
 tabela["skupni.prirast"]<-tabela$naravni.prirast.moski+ tabela$naravni.prirast.zenske
+tabela$skupni.prirast <- as.numeric(tabela$skupni.prirast)
 
 #naredimo nov stolpec v katerem skupni naravni prirastek kategoriziramo
 attach(tabela)
@@ -160,33 +161,16 @@ p + aes(x = kraj, y = naravni.prirast.moski, color = leto) + geom_point()
 #####################################################################
 #ZEMLJEVIDI
 
-source("lib/uvozi.zemljevid.r", encoding = "UTF-8")
-library(ggplot2)
-library(dplyr)
-
-pretvori.zemljevid <- function(zemljevid) {
-  fo <- fortify(zemljevid)
-  data <- zemljevid@data
-  data$id <- as.character(0:(nrow(data)-1))
-  return(inner_join(fo, data, by="id"))
-}
-obc <- uvozi.zemljevid("http://e-prostor.gov.si/fileadmin/BREZPLACNI_POD/RPE/OB.zip",
-                          "OB/OB", encoding = "Windows-1250")
-obc <- obc[order(as.character(obc$OB_UIME)),]
+#tabelam dodamo Ankaran ki je na novo nastala občina
+rownames(tabela2010) <- tabela2010$kraj
+tabela2010["Ankaran",] <- rep(NA, ncol(tabela2010))
+tabela2010$kraj <- rownames(tabela2010)
+tabela2010 <- tabela2011[order(tabela2010$kraj),]
 
 rownames(tabela2011) <- tabela2011$kraj
 tabela2011["Ankaran",] <- rep(NA, ncol(tabela2011))
 tabela2011$kraj <- rownames(tabela2011)
 tabela2011 <- tabela2011[order(tabela2011$kraj),]
-obc$PRIRAST<-tabela2011$skupni.prirast
-obc$RODNOST<-tabela2011$zivorojeni.moski + tabela2011$zivorojene.zenske7
-obc$UMRLIVOST<-tabela2011$umrli.moski + tabela2011$umrle.zenske
-obc <- pretvori.zemljevid(obc)
-
-ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = PRIRAST),color = "grey") +
-  scale_fill_gradient(low="#3F7F3F", high="#00FF00") +
-  guides(fill = guide_colorbar(title = "Prirast"))
-
 
 rownames(tabela2012) <- tabela2012$kraj
 tabela2012["Ankaran",] <- rep(NA, ncol(tabela2012))
@@ -202,4 +186,39 @@ rownames(tabela2014) <- tabela2014$kraj
 tabela2014["Ankaran",] <- rep(NA, ncol(tabela2014))
 tabela2014$kraj <- rownames(tabela2014)
 tabela2014<-tabela2013[order(tabela2014$kraj),]
+
+source("lib/uvozi.zemljevid.r", encoding = "UTF-8")
+library(ggplot2)
+library(dplyr)
+
+pretvori.zemljevid <- function(zemljevid) {
+  fo <- fortify(zemljevid)
+  data <- zemljevid@data
+  data$id <- as.character(0:(nrow(data)-1))
+  return(inner_join(fo, data, by="id"))
+}
+obc <- uvozi.zemljevid("http://e-prostor.gov.si/fileadmin/BREZPLACNI_POD/RPE/OB.zip",
+                          "OB/OB", encoding = "Windows-1250")
+obc <- obc[order(as.character(obc$OB_UIME)),]
+
+
+
+
+obc$PRIRAST<-tabela2011$skupni.prirast
+obc$RODNOST<-tabela2011$zivorojeni.moski + tabela2011$zivorojene.zenske
+obc$UMRLIVOST<-tabela2011$umrli.moski + tabela2011$umrle.zenske
+obc <- pretvori.zemljevid(obc)
+
+ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = PRIRAST),color = "grey") +
+  scale_fill_gradient(low="#d6b6ac", high="#090604") +
+  guides(fill = guide_colorbar(title = "Naravni prirast 2011"))
+
+ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = UMRLIVOST),color = "grey") +
+  scale_fill_gradient(low="#fded75", high= "#100f00") +
+  guides(fill = guide_colorbar(title = "Umrlivost 2011"))
+
+ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = RODNOST),color = "grey") +
+  scale_fill_gradient(low="#a65353", high= "#582b2b") +
+  guides(fill = guide_colorbar(title = "Rodnost 2011"))
+
 
