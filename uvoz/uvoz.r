@@ -37,9 +37,6 @@ for (i in 1:5) {
   podatki[[paste(tabela[i, "leto"])]] <- data.frame(tabela[seq(i, nrow(tabela), 5), c(-2)], row.names = NULL, stringsAsFactors = FALSE)
 }
 
-
-
-
 #nariše za kraj
 tabela[tabela[["kraj"]] == "Beltinci",]
 
@@ -56,28 +53,29 @@ tabela$naravni.prirast.moski <- as.numeric(tabela$naravni.prirast.moski)
 #seštevanje dveh stolpcev in ustvarjanje novega
 tabela["skupni.prirast"]<-tabela$naravni.prirast.moski+ tabela$naravni.prirast.zenske
 
+#naredimo nov stolpec v katerem skupni naravni prirastek kategoriziramo
+attach(tabela)
+kategorije<-c('pozitiven','negativen','ni prirastka')
+velikost<-"skupni.prirast"
+velikost[skupni.prirast==0]<-'ni prirastka'
+velikost[skupni.prirast < 0]<-'negativen'
+velikost[skupni.prirast>0]<-'pozitiven'
+velikost<-factor(velikost,levels=kategorije,ordered=TRUE)
+detach(tabela)
+dodatenstolpec<-data.frame(velikost)
+tabela<-data.frame(tabela,velikost)
 
 #Naredimo tabelo, kjer so podatki za vsaki leto posebaj:
 
+tabela2010<- tabela[tabela[["leto"]] == "2010",]
+tabela2011<- tabela[tabela[["leto"]] == "2011",]
+tabela2012<- tabela[tabela[["leto"]] == "2012",]
+tabela2013<- tabela[tabela[["leto"]] == "2013",]
+tabela2014<- tabela[tabela[["leto"]] == "2014",]
 
-tabela2010<-podatki[["2010"]]
-tabela2011<-podatki[["2011"]]
-tabela2012<-podatki[["2012"]]
-tabela2013<-podatki[["2013"]]
-tabela2014<-podatki[["2014"]]
 
+#tabela2010<-tabela["2010"]
 
-tabela2010["skupni.prirast"]<-tabela2010$naravni.prirast.moski+ tabela2010$naravni.prirast.zenske
-tabela2011["skupni.prirast"]<-tabela2011$naravni.prirast.moski+ tabela2011$naravni.prirast.zenske
-tabela2012["skupni.prirast"]<-tabela2012$naravni.prirast.moski+ tabela2012$naravni.prirast.zenske
-tabela2013["skupni.prirast"]<-tabela2013$naravni.prirast.moski+ tabela2013$naravni.prirast.zenske
-tabela2014["skupni.prirast"]<-tabela2014$naravni.prirast.moski+ tabela2014$naravni.prirast.zenske
-
-tabela2010$skupni.prirast<-as.numeric(tabela2010$skupni.prirast)
-tabela2011$skupni.prirast<-as.numeric(tabela2011$skupni.prirast)
-tabela2012$skupni.prirast<-as.numeric(tabela2012$skupni.prirast)
-tabela2013$skupni.prirast<-as.numeric(tabela2013$skupni.prirast)
-tabela2014$skupni.prirast<-as.numeric(tabela2014$skupni.prirast)
 
 #Okenca, za katere ni podatka in so oznacena z "-", zamenjamo z "NA":
 tabela[tabela == "-"] <- NA
@@ -136,36 +134,11 @@ podatkiHTML<-podatkiHTML[-(29:31),]
 
 
 
-#naredimo nov stolpec v katerem skupni naravni prirastek kategoriziramo
-attach(tabela)
-kategorije<-c('pozitiven','negativen','ni prirastka')
-velikost<-"skupni.prirast"
-velikost[skupni.prirast==0]<-'ni prirastka'
-velikost[skupni.prirast < 0]<-'negativen'
-velikost[skupni.prirast>0]<-'pozitiven'
-velikost<-factor(velikost,levels=kategorije,ordered=TRUE)
-detach(tabela)
-dodatenstolpec<-data.frame(velikost)
-tabela<-data.frame(tabela,velikost)
+
 
 
 ##########################################################
 #grafi za leto 2010 pri katerih je prikazan naravni prirast, ki je ločen glede na velikost
-tabela2010["skupni.prirast"]<-tabela2010$naravni.prirast.moski+ tabela2010$naravni.prirast.zenske
-
-
-attach(tabela2010)
-kategorije<-c('pozitiven','negativen','ni prirastka')
-velikost<-"skupni.prirast"
-velikost[skupni.prirast==0]<-'ni prirastka'
-velikost[skupni.prirast < 0]<-'negativen'
-velikost[skupni.prirast>0]<-'pozitiven'
-velikost<-factor(velikost,levels=kategorije,ordered=TRUE)
-detach(tabela2010)
-dodatenstolpec<-data.frame(velikost)
-tabela2010<-data.frame(tabela,velikost)
-tabela2010<-tabela2010[,-11]
-
 
 ggplot(data=tabela2010 %>% filter(velikost=="negativen"), aes(x=kraj, y=skupni.prirast)) + geom_point()
 ggplot(data=tabela2010 %>% filter(velikost=="pozitiven"), aes(x=kraj, y=skupni.prirast)) + geom_point()
@@ -200,6 +173,7 @@ pretvori.zemljevid <- function(zemljevid) {
 obc <- uvozi.zemljevid("http://e-prostor.gov.si/fileadmin/BREZPLACNI_POD/RPE/OB.zip",
                           "OB/OB", encoding = "Windows-1250")
 obc <- obc[order(as.character(obc$OB_UIME)),]
+
 rownames(tabela2011) <- tabela2011$kraj
 tabela2011["Ankaran",] <- rep(NA, ncol(tabela2011))
 tabela2011$kraj <- rownames(tabela2011)
@@ -207,15 +181,25 @@ tabela2011 <- tabela2011[order(tabela2011$kraj),]
 obc$PRIRAST<-tabela2011$skupni.prirast
 obc$RODNOST<-tabela2011$zivorojeni.moski + tabela2011$zivorojene.zenske7
 obc$UMRLIVOST<-tabela2011$umrli.moski + tabela2011$umrle.zenske
-#obc <- pretvori.zemljevid(obc)
+obc <- pretvori.zemljevid(obc)
 
-zem <- ggplot() + geom_polygon(data = obc, aes(x=long, y=lat, group=group,
-                                              fill="RODNOST"),
-                               color = "grey") +
-  scale_fill_gradient(low="white", high="#00FF00") +
-  guides(fill = guide_colorbar(title = "Rodnost"))+
-print(zem)
+ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = PRIRAST),color = "grey") +
+  scale_fill_gradient(low="#3F7F3F", high="#00FF00") +
+  guides(fill = guide_colorbar(title = "Prirast"))
 
 
+rownames(tabela2012) <- tabela2012$kraj
+tabela2012["Ankaran",] <- rep(NA, ncol(tabela2012))
+tabela2012$kraj <- rownames(tabela2012)
+tabela2012 <- tabela2012[order(tabela2012$kraj),]
 
+rownames(tabela2013) <- tabela2013$kraj
+tabela2013["Ankaran",] <- rep(NA, ncol(tabela2013))
+tabela2013$kraj <- rownames(tabela2013)
+tabela2013<-tabela2013[order(tabela2013$kraj),]
+
+rownames(tabela2014) <- tabela2014$kraj
+tabela2014["Ankaran",] <- rep(NA, ncol(tabela2014))
+tabela2014$kraj <- rownames(tabela2014)
+tabela2014<-tabela2013[order(tabela2014$kraj),]
 
