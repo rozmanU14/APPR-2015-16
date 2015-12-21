@@ -205,6 +205,17 @@ tabela2011["Ankaran",] <- rep(NA, ncol(tabela2011))
 tabela2011$kraj <- rownames(tabela2011)
 tabela2011 <- tabela2011[order(tabela2011$kraj),]
 obc$PRIRAST<-tabela2011$skupni.prirast
+obc$RODNOST<-tabela2011$zivorojeni.moski + tabela2011$zivorojene.zenske7
+obc$UMRLIVOST<-tabela2011$umrli.moski + tabela2011$umrle.zenske
 #obc <- pretvori.zemljevid(obc)
+
+zem <- ggplot() + geom_polygon(data = obc, aes(x=long, y=lat, group=group,
+                                              fill="RODNOST"),
+                               color = "grey") +
+  scale_fill_gradient(low="white", high="#00FF00") +
+  guides(fill = guide_colorbar(title = "Rodnost"))+
+print(zem)
+
+
 
 
