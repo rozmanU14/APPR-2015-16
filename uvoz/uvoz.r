@@ -222,3 +222,8 @@ ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill =
   guides(fill = guide_colorbar(title = "Rodnost 2011"))
 
 
+ggplot(data=tabela%>%filter(velikost),
+       aes(velikost))+ geom_bar(stat="identity",fill="seagreen3",size=3) + 
+  coord_flip()+ facet_wrap(~ velikost)
+
+
