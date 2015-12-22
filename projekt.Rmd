@@ -3,9 +3,10 @@ title: "Poročilo pri predmetu Analiza podatkov s programom R"
 author: "Urška Rožman"
 output:
   pdf_document:
-    latex_engine: xelatex
     includes:
       in_header: lib/styles.sty
+    latex_engine: xelatex
+  html_document: default
 ---
 
 ```{r setup, echo=FALSE, results='hide', message=FALSE}
@@ -32,8 +33,8 @@ source("uvoz/uvoz.r", encoding = "UTF-8")
 Podatke za prvo tabelo sem dobila na spletni strani statističnega urada Slovenije ter jih uvozila v CSV obliki, podatke za drugo tabelo pa sem v HTML obliki uvozila iz spletne strani EUROSTAT.
 
 Povezave na podatke:
-- http://ec.europa.eu/eurostat/web/population-demography-migration-projections/births-fertitily-data/database
-- http://pxweb.stat.si/pxweb/Dialog/varval.asp?ma=05I1002S&ti=&path=../Database/Dem_soc/05_prebivalstvo/25_selitveno_gibanje/05_05I10_naravno_gibanje/&lang=2
+<http://ec.europa.eu/eurostat/web/population-demography-migration-projections/births-fertitily-data/database>
+<http://pxweb.stat.si/pxweb/Dialog/varval.asp?ma=05I1002S&ti=&path=../Database/Dem_soc/05_prebivalstvo/25_selitveno_gibanje/05_05I10_naravno_gibanje/&lang=2>
 
 Prva tabela vsebuje stolpce:
 - ime kraja (imenska spremenljivka)
@@ -52,29 +53,41 @@ Prva tabela vsebuje stolpce:
  - prikazuje naravni prirastek moških po krajih in letih
 
 
-```{r1 razpredelnice, echo=FALSE}
+```{r razpredelnica1, echo=FALSE}
 kable(head(tabela))
 ```
+
+
 Te stolpce sem prečistila (mesta kjer ni bilo podatka sem zamenjala z NA), izbrisala nepotrebne stolpce in vrstice ter zagotovila, da bodo številske spremenljivke res številske. Tabelo sem ločila na pet pod tabel, ki so bile ločene glede na leto. Dodala sem stolpec "skupni.prirast" ki je seštevek naravnega prirasta moških in žensk. Da bi bilo filtriranje podatkov še lažje, sem dodala še stolpec "velikost" ki je urejenostna spremenljivka in sicer klasificira prirastek kot "pozitiven","negativen" oziroma "ni prirastka".
 
 Druga tabela, ki je bila uvožena v HTML obliki vsebuje podatke o naravnem prirastku evropskih držav. Najprej sem uvozila zgolj podatke o prirastku ki so klicani z eno spremenljivko,ter jih dala v matriko, kasneje pa še podatke o letih merjenja ter državah. Ko sem prečistila nepotrebne podatke (zamenjava znakov "-","("b") z NA, ter pri vektorju držav in let napotrebne znake med željenimi državami) sem podatke, države in leta združila v eno tabelo. Ker želim analizirati le podatke od 2010-2013 sem ostale stolpce izbrisala. 
 
-```{r2 razpredelnice, echo=FALSE}
+```{r razpredelnica2, echo=FALSE}
 kable(head(podatkiHTML))
 ```
+
 Nato sem narisala še nekaj grafov.
+
 ```{r graf1, echo=FALSE,fig.align='center',fig.cap='negativen.prirast.2010'}
 ggplot(data=tabela2010 %>% filter(velikost=="negativen"), aes(x=kraj, y=skupni.prirast)) + geom_point()
 
 ```
+
+Prikazuje negativen prirast v letu 2010 po občinah.
 
 ```{r graf2, echo=FALSE,fig.align='center',fig.cap='pozitiven.prirast.2010'}
 ggplot(data=tabela2010 %>% filter(velikost=="pozitiven"), aes(x=kraj, y=skupni.prirast)) + geom_point()
 
 ```
 
+Prikazuje pozitiven prirast v letu 2010 po občinah.
+
+
 ```{r graf3, echo=FALSE,fig.align='center',fig.cap='ni.prirasta.2010'}
-ggplot(data=tabela2010 %>% filter(velikost=="ni.prirasta"), aes(x=kraj, y=skupni.prirast)) + geom_point()
+ggplot(data=tabela2010 %>% filter(velikost=="ni prirastka"), aes(x=kraj, y=skupni.prirast)) + geom_point()
 
 ```
+
+
+Prikazuje občine v letu 2010, ki so brez prirastka.
 
