@@ -16,7 +16,6 @@ uvozi<-function(){
                     as.is = FALSE))
                 }
 #Zapisemo podatke v razpredelnivo tabela
-cat("Uvazam podatke o naravnem prirastku...\n")
 tabela<-uvozi()
 
 #funkcija za zapis vrstic
@@ -41,7 +40,6 @@ for (i in 1:5) {
 tabela[tabela[["kraj"]] == "Beltinci",]
 
 #poskrbimo, da so stevilske spremenljivke res stevilske
-cat("Pretvorba stolpcev v stevilske spremenljivke...\n")
 tabela$zivorojeni.moski <- as.numeric(tabela$zivorojeni.moski)
 tabela$zivorojene.zenske <- as.numeric(tabela$zivorojene.zenske)
 tabela$umrle.zenske <- as.numeric(tabela$umrle.zenske)
@@ -49,31 +47,6 @@ tabela$umrli.moski <- as.numeric(tabela$umrli.moski)
 tabela$naravni.prirast.zenske <- as.numeric(tabela$naravni.prirast.zenske)
 tabela$naravni.prirast.moski <- as.numeric(tabela$naravni.prirast.moski)
 
-#tabelam dodamo Ankaran ki je na novo nastala občina
-rownames(tabela2010) <- tabela2010$kraj
-tabela2010["Ankaran",] <- rep(NA, ncol(tabela2010))
-tabela2010$kraj <- rownames(tabela2010)
-tabela2010 <- tabela2011[order(tabela2010$kraj),]
-
-rownames(tabela2011) <- tabela2011$kraj
-tabela2011["Ankaran",] <- rep(NA, ncol(tabela2011))
-tabela2011$kraj <- rownames(tabela2011)
-tabela2011 <- tabela2011[order(tabela2011$kraj),]
-
-rownames(tabela2012) <- tabela2012$kraj
-tabela2012["Ankaran",] <- rep(NA, ncol(tabela2012))
-tabela2012$kraj <- rownames(tabela2012)
-tabela2012 <- tabela2012[order(tabela2012$kraj),]
-
-rownames(tabela2013) <- tabela2013$kraj
-tabela2013["Ankaran",] <- rep(NA, ncol(tabela2013))
-tabela2013$kraj <- rownames(tabela2013)
-tabela2013<-tabela2013[order(tabela2013$kraj),]
-
-rownames(tabela2014) <- tabela2014$kraj
-tabela2014["Ankaran",] <- rep(NA, ncol(tabela2014))
-tabela2014$kraj <- rownames(tabela2014)
-tabela2014<-tabela2013[order(tabela2014$kraj),]
 
 #seštevanje dveh stolpcev in ustvarjanje novega
 tabela["skupni.prirast"]<-tabela$naravni.prirast.moski+ tabela$naravni.prirast.zenske
@@ -164,7 +137,7 @@ podatkiHTML<-podatkiHTML[-(29:31),]
 #grafi za leto 2010 pri katerih je prikazan naravni prirast, ki je ločen glede na velikost
 
 negativen.prirast2010<-ggplot(data=tabela2010 %>% filter(velikost=="negativen"), aes(x=kraj, y=skupni.prirast)) + geom_point()
-pozitiven.prirast2011<-ggplot(data=tabela2010 %>% filter(velikost=="pozitiven"), aes(x=kraj, y=skupni.prirast)) + geom_point()
+pozitiven.prirast2010<-ggplot(data=tabela2010 %>% filter(velikost=="pozitiven"), aes(x=kraj, y=skupni.prirast)) + geom_point()
 ni.prirasta2010<-ggplot(data=tabela2010 %>% filter(velikost=="ni prirastka"), aes(x=kraj, y=skupni.prirast)) + geom_point()
 
 #tabela ki prikaže kraje s skupnim prirastkom več kot 100
@@ -195,6 +168,31 @@ source("lib/uvozi.zemljevid.r", encoding = "UTF-8")
 library(ggplot2)
 library(dplyr)
 
+#tabelam dodamo Ankaran ki je na novo nastala občina
+rownames(tabela2010) <- tabela2010$kraj
+tabela2010["Ankaran",] <- rep(NA, ncol(tabela2010))
+tabela2010$kraj <- rownames(tabela2010)
+tabela2010 <- tabela2011[order(tabela2010$kraj),]
+
+rownames(tabela2011) <- tabela2011$kraj
+tabela2011["Ankaran",] <- rep(NA, ncol(tabela2011))
+tabela2011$kraj <- rownames(tabela2011)
+tabela2011 <- tabela2011[order(tabela2011$kraj),]
+
+rownames(tabela2012) <- tabela2012$kraj
+tabela2012["Ankaran",] <- rep(NA, ncol(tabela2012))
+tabela2012$kraj <- rownames(tabela2012)
+tabela2012 <- tabela2012[order(tabela2012$kraj),]
+
+rownames(tabela2013) <- tabela2013$kraj
+tabela2013["Ankaran",] <- rep(NA, ncol(tabela2013))
+tabela2013$kraj <- rownames(tabela2013)
+tabela2013<-tabela2013[order(tabela2013$kraj),]
+
+rownames(tabela2014) <- tabela2014$kraj
+tabela2014["Ankaran",] <- rep(NA, ncol(tabela2014))
+tabela2014$kraj <- rownames(tabela2014)
+tabela2014<-tabela2013[order(tabela2014$kraj),]
 pretvori.zemljevid <- function(zemljevid) {
   fo <- fortify(zemljevid)
   data <- zemljevid@data
