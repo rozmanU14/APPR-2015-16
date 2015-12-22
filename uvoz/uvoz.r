@@ -49,6 +49,31 @@ tabela$umrli.moski <- as.numeric(tabela$umrli.moski)
 tabela$naravni.prirast.zenske <- as.numeric(tabela$naravni.prirast.zenske)
 tabela$naravni.prirast.moski <- as.numeric(tabela$naravni.prirast.moski)
 
+#tabelam dodamo Ankaran ki je na novo nastala občina
+rownames(tabela2010) <- tabela2010$kraj
+tabela2010["Ankaran",] <- rep(NA, ncol(tabela2010))
+tabela2010$kraj <- rownames(tabela2010)
+tabela2010 <- tabela2011[order(tabela2010$kraj),]
+
+rownames(tabela2011) <- tabela2011$kraj
+tabela2011["Ankaran",] <- rep(NA, ncol(tabela2011))
+tabela2011$kraj <- rownames(tabela2011)
+tabela2011 <- tabela2011[order(tabela2011$kraj),]
+
+rownames(tabela2012) <- tabela2012$kraj
+tabela2012["Ankaran",] <- rep(NA, ncol(tabela2012))
+tabela2012$kraj <- rownames(tabela2012)
+tabela2012 <- tabela2012[order(tabela2012$kraj),]
+
+rownames(tabela2013) <- tabela2013$kraj
+tabela2013["Ankaran",] <- rep(NA, ncol(tabela2013))
+tabela2013$kraj <- rownames(tabela2013)
+tabela2013<-tabela2013[order(tabela2013$kraj),]
+
+rownames(tabela2014) <- tabela2014$kraj
+tabela2014["Ankaran",] <- rep(NA, ncol(tabela2014))
+tabela2014$kraj <- rownames(tabela2014)
+tabela2014<-tabela2013[order(tabela2014$kraj),]
 
 #seštevanje dveh stolpcev in ustvarjanje novega
 tabela["skupni.prirast"]<-tabela$naravni.prirast.moski+ tabela$naravni.prirast.zenske
@@ -135,9 +160,6 @@ podatkiHTML<-podatkiHTML[-(29:31),]
 
 
 
-
-
-
 ##########################################################
 #grafi za leto 2010 pri katerih je prikazan naravni prirast, ki je ločen glede na velikost
 
@@ -167,31 +189,7 @@ ggplot(data=tabela2014,aes(y=umrli.moski,x =kraj),color="blue")+geom_point()+geo
 #####################################################################
 #ZEMLJEVIDI
 
-#tabelam dodamo Ankaran ki je na novo nastala občina
-rownames(tabela2010) <- tabela2010$kraj
-tabela2010["Ankaran",] <- rep(NA, ncol(tabela2010))
-tabela2010$kraj <- rownames(tabela2010)
-tabela2010 <- tabela2011[order(tabela2010$kraj),]
 
-rownames(tabela2011) <- tabela2011$kraj
-tabela2011["Ankaran",] <- rep(NA, ncol(tabela2011))
-tabela2011$kraj <- rownames(tabela2011)
-tabela2011 <- tabela2011[order(tabela2011$kraj),]
-
-rownames(tabela2012) <- tabela2012$kraj
-tabela2012["Ankaran",] <- rep(NA, ncol(tabela2012))
-tabela2012$kraj <- rownames(tabela2012)
-tabela2012 <- tabela2012[order(tabela2012$kraj),]
-
-rownames(tabela2013) <- tabela2013$kraj
-tabela2013["Ankaran",] <- rep(NA, ncol(tabela2013))
-tabela2013$kraj <- rownames(tabela2013)
-tabela2013<-tabela2013[order(tabela2013$kraj),]
-
-rownames(tabela2014) <- tabela2014$kraj
-tabela2014["Ankaran",] <- rep(NA, ncol(tabela2014))
-tabela2014$kraj <- rownames(tabela2014)
-tabela2014<-tabela2013[order(tabela2014$kraj),]
 
 source("lib/uvozi.zemljevid.r", encoding = "UTF-8")
 library(ggplot2)
