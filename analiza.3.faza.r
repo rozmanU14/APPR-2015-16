@@ -73,12 +73,22 @@ obc <- obc[order(as.character(obc$OB_UIME)),]
 obc$PRIRAST2011<-tabela2011$skupni.prirast
 obc$RODNOST2011<-tabela2011$zivorojeni.moski + tabela2011$zivorojene.zenske
 obc$UMRLIVOST2011<-tabela2011$umrli.moski + tabela2011$umrle.zenske
+obc$VELIKOST<- tabela2011$velikost
 obc <- pretvori.zemljevid(obc)
 
+#Zemljevid prikazuje naravni prirast v letu 2011. 
 zem1<- ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = PRIRAST2011),color = "grey") +
   scale_fill_gradient(low="#d6b6ac", high="#090604") +
   guides(fill = guide_colorbar(title = "Naravni prirast 2011"))
-#Zemljevid prikazuje naravni prirast v letu 2011. 
+
+
+#zemljevid prikazuje v katerih občinah je prirast pozitiven, v katerih negativen in v katerih ni prirastka
+zem2<-zem1+ geom_point(data = obc , aes(x = Y_C, y = X_C, color = VELIKOST)) +
+  scale_color_manual(name="Tip", breaks = c("POZITIVEN", "NEGATIVEN","NI PRIRASTKA"),
+                     labels = c("POZITIVEN", "NEGATIVEN","NI PRIRASTKA"),
+                     values = c("blue", "red","orange")) 
+
+
 
 ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = UMRLIVOST2011),color = "grey") +
   scale_fill_gradient(low="#fded75", high= "#100f00") +
@@ -90,9 +100,32 @@ ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill =
   guides(fill = guide_colorbar(title = "Rodnost 2011"))
 #Zemljevid prikazuje rodnost v letu 2011 po občinah. 
 
-## Dodamo imena glavnih mest mestnih občin
-zem3 <- zem1 + geom_text(data = obc$data %>% filter(PRIRAST>100),
-                         aes(x = Y_C, y = X_C, label = OB_UIME),
-                         size = 3, vjust = 2)
-print(zem1)
+#Analiza največjega naravnega prirastka po letih:
+#2010:
+max(tabela2010$skupni.prirast, na.rm=TRUE)
+tabela2010[tabela2010[["skupni.prirast"]] == "925",] #Ljubljana
+min(tabela2010$skupni.prirast, na.rm=TRUE)
+tabela2010[tabela2010[["skupni.prirast"]] == "-212",] #Maribor
+#2011
+max(tabela2011$skupni.prirast, na.rm=TRUE)
+tabela2011[tabela2011[["skupni.prirast"]] == "792",] #Ljubljana 
+min(tabela2011$skupni.prirast, na.rm=TRUE)
+tabela2011[tabela2010[["skupni.prirast"]] == "-220",] #Maribor
+#2012
+max(tabela2012$skupni.prirast, na.rm=TRUE)
+tabela2012[tabela2012[["skupni.prirast"]] == "812",]  #Ljubljana
+min(tabela2012$skupni.prirast, na.rm=TRUE)
+tabela2012[tabela2012[["skupni.prirast"]] == "-319",] #Maribor
+#2013
+max(tabela2013$skupni.prirast, na.rm=TRUE)
+tabela2013[tabela2012[["skupni.prirast"]] == "740",] #Ljubljana
+min(tabela2013$skupni.prirast, na.rm=TRUE)
+tabela2013[tabela2013[["skupni.prirast"]] == "-272",] #Maribor
+#2014
+max(tabela2014$skupni.prirast, na.rm=TRUE)
+tabela2014[tabela2014[["skupni.prirast"]] == "702",] #Ljubljana
+min(tabela2013$skupni.prirast, na.rm=TRUE)
+tabela2013[tabela2013[["skupni.prirast"]] == "-231",] #Maribor
+#Ugotovila sem da je med leto 2010 in 2014 naarvni prirast največji v Ljubljani in najmanjši v Mariboru.
 
+tabela2010[tabela2010$velikost == "pozitiven" , c("kraj")]

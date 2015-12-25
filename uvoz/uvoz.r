@@ -1,5 +1,4 @@
 
-
 #Vektor, ki predstavlja imena stolpcev:
 nova.kolona<-c("kraj", "leto","zivorojeni moski","zivorojene zenske","umrli moski","umrle zenske","naravni prirast moski","naravni prirast zenske")
 #Funkcija, ki uvozi podatke iz datoteke podatki.csv
@@ -129,5 +128,3 @@ podatkiHTML<-podatkiHTML[-(29:31),]
 
 
 
-
-                                                                                                      
