@@ -190,9 +190,6 @@ sum(tabela$umrli.moski,na.rm=TRUE) #46702
 sum(tabela$umrle.zenske,na.rm=TRUE) #48083
 
 #Primerjava Slovenskega prirasta z ostalimi Evropskimi državami:
-#v tabelo podatkiHTML dodamo podatke za Slovenijo.
-rownames(podatkiHTML) <- row.names = novipodatkiDRZAVE
-podatkiHTML["Slovenija",] <- rep(c("1.769","1.539","1.271","0.842"), ncol(podatkiHTML))
 
 #države z največjim in najmanjšim prirastkom:
 #2010:
@@ -206,16 +203,17 @@ podatkiHTML[podatkiHTML[["2011"]] == "2.03052",] #Turčija
 min(podatkiHTML$"2010",na.rm=TRUE) #1.23322
 podatkiHTML[podatkiHTML[["2010"]] == "1.23322",] #Madžarska
 #2012
-max(podatkiHTML$"2012",na.rm=TRUE) #2.03943
-podatkiHTML[podatkiHTML[["2011"]] == "2.03943",] #Turčija
+max(podatkiHTML$"2012",na.rm=TRUE) #2.08648
+podatkiHTML[podatkiHTML[["2012"]] == "2.08648",] #Turčija
 min(podatkiHTML$"2012",na.rm=TRUE) #1.25775
 podatkiHTML[podatkiHTML[["2012"]] == "1.25775",] #San marino
 #2013
 max(podatkiHTML$"2013",na.rm=TRUE) #2.08498
-podatkiHTML[podatkiHTML[["2011"]] == "2.08498",] #Turčija
+podatkiHTML[podatkiHTML[["2013"]] == "2.08498",] #Turčija
 min(podatkiHTML$"2013",na.rm=TRUE) #0.842
 podatkiHTML[podatkiHTML[["2013"]] == "0.842",] #Slovenija
 #Ugotovila sem, da je imela največji povp.naravni prirast v letu 2010 Islandija,
 #v letih 2011-2013 pa Turčija"
 #Najmanjši navani prirast izmed Evropskih držav je imela v letih 2010 in 2011 Madžarska, 
 #v letu 2012 San marino, v letu 2013 pa Slovenija.
+ggplot(podatkiHTML) + aes(x = ncol(podatkiHTML), y = "Hungary") + geom_point()
