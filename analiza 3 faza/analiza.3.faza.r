@@ -151,6 +151,8 @@ ggplot(tabela2013) + aes(x = kraj, y = skupni.prirast) +
 #2010:
 ziv.z.2010<-sum(tabela2010$zivorojene.zenske,na.rm=TRUE) /211 #51.37
 ziv.m.2010<-sum(tabela2010$zivorojeni.moski,na.rm=TRUE) /211 #54.52
+#Grafa prikazujeta število živorojenih žensk in moških v občinah,
+#črta prikazuje povprečno število živorojenih.
 ggplot(tabela2010) + aes(x = kraj, y = zivorojene.zenske) + 
   geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   geom_point() + geom_hline(yintercept =ziv.z.2010,color="orange")
@@ -161,6 +163,8 @@ ggplot(tabela2010) + aes(x = kraj, y = zivorojeni.moski)+
 #2011
 ziv.z.2011<-sum(tabela2011$zivorojene.zenske,na.rm=TRUE) /211 #50.71
 ziv.m.2011<-sum(tabela2011$zivorojeni.moski,na.rm=TRUE) /211 #53.31
+#Grafa prikazujeta število živorojenih žensk in moških v občinah,
+#črta prikazuje povprečno število živorojenih.
 ggplot(tabela2011) + aes(x = kraj, y = zivorojene.zenske) + 
   geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   geom_point() + geom_hline(yintercept =ziv.z.2011,color="pink")
@@ -171,6 +175,8 @@ ggplot(tabela2011) + aes(x = kraj, y = zivorojeni.moski) +
 #2012
 ziv.z.2012<-sum(tabela2012$zivorojene.zenske,na.rm=TRUE) /211 #50.33
 ziv.m.2012<-sum(tabela2012$zivorojeni.moski,na.rm=TRUE) /211 #53.64
+#Grafa prikazujeta število živorojenih žensk in moških v občinah,
+#črta prikazuje povprečno število živorojenih.
 ggplot(tabela2012) + aes(x = kraj, y = zivorojene.zenske) + 
   geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   geom_point() + geom_hline(yintercept =ziv.z.2012,color="yellow")
@@ -181,6 +187,8 @@ ggplot(tabela2012) + aes(x = kraj, y = zivorojeni.moski) +
 #2013
 ziv.z.2013<-sum(tabela2013$zivorojene.zenske,na.rm=TRUE) /211 #48.85
 ziv.m.2013<-sum(tabela2013$zivorojeni.moski,na.rm=TRUE) /211 #51.20
+#Grafa prikazujeta število živorojenih žensk in moških v občinah,
+#črta prikazuje povprečno število živorojenih.
 ggplot(tabela2013) + aes(x = kraj, y = zivorojene.zenske) + 
   geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   geom_point() + geom_hline(yintercept =ziv.z.2013,color="green")
@@ -191,6 +199,8 @@ ggplot(tabela2013) + aes(x = kraj, y = zivorojeni.moski) +
 #2014
 ziv.z.2014<-sum(tabela2014$zivorojene.zenske,na.rm=TRUE) /211 #48.52
 ziv.m.2014<-sum(tabela2014$zivorojeni.moski,na.rm=TRUE) /211 #51.79
+#Grafa prikazujeta število živorojenih žensk in moških v občinah,
+#črta prikazuje povprečno število živorojenih.
 ggplot(tabela2014) + aes(x = kraj, y = zivorojene.zenske) + 
   geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   geom_point() + geom_hline(yintercept =ziv.z.2014,color="gold")
@@ -209,6 +219,8 @@ sum(tabela$zivorojeni.moski,na.rm=TRUE) #55803
 #2010:
 umr.z.2010<-sum(tabela2010$umrle.zenske,na.rm=TRUE) /211 #44.16
 umr.m.2010<-sum(tabela2010$umrli.moski,na.rm=TRUE) /211 #44.04
+#Grafa prikazujeta število umrlih žensk in moških v občinah,
+#črta prikazuje povprečno število umrlih.
 ggplot(tabela2010) + aes(x = kraj, y = umrle.zenske) + 
   geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   geom_point() + geom_hline(yintercept =umr.z.2010,color="red")
@@ -219,6 +231,8 @@ ggplot(tabela2010) + aes(x = kraj, y = umrli.moski)+
 #2011:
 umr.z.2011<-sum(tabela2011$umrle.zenske,na.rm=TRUE) /211 #44.85
 umr.m.2011<-sum(tabela2011$umrli.moski,na.rm=TRUE) /211 #43.77
+#Grafa prikazujeta število umrlih žensk in moških v občinah,
+#črta prikazuje povprečno število umrlih.
 ggplot(tabela2011) + aes(x = kraj, y = umrle.zenske) + 
   geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   geom_point() + geom_hline(yintercept =umr.z.2011,color="yellow")
@@ -229,6 +243,8 @@ ggplot(tabela2011) + aes(x = kraj, y = umrli.moski)+
 #2012:
 umr.z.2012<-sum(tabela2012$umrle.zenske,na.rm=TRUE) /211 #46.66
 umr.m.2012<-sum(tabela2012$umrli.moski,na.rm=TRUE) /211 #44.61
+#Grafa prikazujeta število umrlih žensk in moških v občinah,
+#črta prikazuje povprečno število umrlih.
 ggplot(tabela2012) + aes(x = kraj, y = umrle.zenske) + 
   geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   geom_point() + geom_hline(yintercept =umr.z.2012,color="pink")
@@ -239,6 +255,8 @@ ggplot(tabela2012) + aes(x = kraj, y = umrli.moski)+
 #2013:
 umr.z.2013<-sum(tabela2013$umrle.zenske,na.rm=TRUE) /211 #46.35
 umr.m.2013<-sum(tabela2013$umrli.moski,na.rm=TRUE) /211 #45.28
+#Grafa prikazujeta število umrlih žensk in moških v občinah,
+#črta prikazuje povprečno število umrlih.
 ggplot(tabela2013) + aes(x = kraj, y = umrle.zenske) + 
   geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   geom_point() + geom_hline(yintercept =umr.z.2013,color="red")
@@ -249,6 +267,8 @@ ggplot(tabela2013) + aes(x = kraj, y = umrli.moski)+
 #2014:
 umr.z.2014<-sum(tabela2014$umrle.zenske,na.rm=TRUE) /211 #45.88
 umr.m.2014<-sum(tabela2014$umrli.moski,na.rm=TRUE) /211 #43.63
+#Grafa prikazujeta število umrlih žensk in moških v občinah,
+#črta prikazuje povprečno število umrlih.
 ggplot(tabela2014) + aes(x = kraj, y = umrle.zenske) + 
   geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   geom_point() + geom_hline(yintercept =umr.z.2014,color="yellow")
@@ -303,5 +323,5 @@ sum(podatkiHTML$"2013", na.rm=TRUE) / nrow(podatkiHTML) #1.26
 #Ugotovila sem, da je povprečni slovenski prirast večji od povprečnega evropskega po letih.
 
 
-  
+
 
