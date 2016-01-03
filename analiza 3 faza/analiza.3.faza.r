@@ -322,6 +322,3 @@ sum(podatkiHTML$"2013", na.rm=TRUE) / nrow(podatkiHTML) #1.26
 
 #Ugotovila sem, da je povprečni slovenski prirast večji od povprečnega evropskega po letih.
 
-
-
-
