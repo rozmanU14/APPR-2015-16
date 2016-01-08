@@ -2,11 +2,11 @@
 title: "Poročilo pri predmetu Analiza podatkov s programom R"
 author: "Urška Rožman"
 output:
+  html_document: default
   pdf_document:
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
-  html_document: default
 ---
 
 ```{r setup, echo=FALSE, results='hide', message=FALSE}
@@ -90,4 +90,87 @@ ggplot(data=tabela2010 %>% filter(velikost=="ni prirastka"), aes(x=kraj, y=skupn
 
 
 Prikazuje občine v letu 2010, ki so brez prirastka.
+
+
+# Analiza in vizualizacija podatkov
+```{r ainv, echo=FALSE, results='hide', message=FALSE,warning=FALSE}
+source("vizualizacija/analiza.3.faza.r", encoding = "UTF-8")
+```
+
+Preden sem začela z izdelavo zemljevidov sem v tabele občin dodala Ankaran, ki je novonastala občina, zato je v tabelah s podatki še ni bilo. Nato sem se lotila izdelave.
+
+### Zemljevid naravnega prirasta po po občinah v Sloveniji v letu 2011
+```{r zemljevid1, echo=FALSE, fig.align='center', fig.cap='Zemljevid naravnega prirastka v letu 2011'}
+zem1<- ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = PRIRAST2011),color = "grey") +
+  scale_fill_gradient(low="#d6b6ac", high="#090604") +
+  guides(fill = guide_colorbar(title = "Naravni prirast 2011"))
+print(zem1)
+```
+Zemljevid nam prikazuje naravni prirast v letu 2011 po občinah. Njavečji naravni prirast je v Ljubljani, najmanjši pa v Mariboru.
+
+### Zemljevid občin spozitivnim prirastom, negativnim prirastom in občin brez prirasta
+```{r zemljevid2, echo=FALSE, fig.align='center', fig.cap='Zemljevid naravnega prirastka v letu 2011 z velikostmi'}
+zem2<-zem1+ geom_point(data = obc , aes(x = Y_C, y = X_C, color = VELIKOST)) +
+  scale_color_manual(name="Tip", breaks = c("POZITIVEN", "NEGATIVEN","NI PRIRASTKA"),
+                     labels = c("POZITIVEN", "NEGATIVEN","NI PRIRASTKA"),
+                     values = c("blue", "red","orange")) 
+print(zem2)
+```
+Zemljevid prikazuje skupni prirast v letu 2011, s pikami pa je označena velikost prirasta. Modra pika prikazuje vse občine kjer je prirast pozitiven, rdeča tiste, kjer je negativen, rumena pa občine brez prirasta.
+
+### Zemljevid občin s pozitivnim in negativnim prirastom ter občin brez prirasta
+```{r zemljevid3, echo=FALSE, fig.align='center', fig.cap='Zemljevid umrlivosti 2011'}
+zem3<-ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = UMRLIVOST2011),color = "grey") +
+  scale_fill_gradient(low="#fded75", high= "#100f00") +
+  guides(fill = guide_colorbar(title = "Umrlivost 2011")) +
+  geom_text(data = obc %>% filter(OB_IME == c("KOBILJE","HODOŠ","LJUBLJANA","MARIBOR")),
+          aes(x = Y_C, y = X_C, label = OB_IME),
+          size = 3, vjust = 2)
+```
+Zemljevid prikazuje umrlivost po občinah v letu 2011 za moške in ženske skupaj. Njavečja umrlivost tako pri ženskah kot pri moških je v Ljubljani, kar je posledica največjega števila prebivalcev.Najmanjša umrlivost pri ženskah je v kraju Hodoš, pri moških pa v kraju Kobilje.Kraji so na zemljevidu tudi označeni.
+
+### Analiza naravnega prirasta po letih
+Ugotovila sem, da je med leti 2010 in 2014 naravni prirast največji v Ljubljani in najmanjši v Mariboru.
+
+
+### Analiza povprečnega naravnega prirasta po letih
+Ugotovila sem, da je naravni prirast po letih od 2010 do 2013 padal,nato se 2014 spet narastel.
+```{r graf4, echo=FALSE,fig.align='center',fig.cap='ni.prirasta.2010'}
+ggplot(tabela2010) + aes(x = kraj, y = skupni.prirast) + 
+  geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
+  geom_point() + geom_hline(yintercept =povp.pr.2010,color="red")
+
+```
+
+Graf prikazuje naravni prirast v letu 2010, vodoravna črta pa povprečen prirast.
+
+### Analiza živorojenih moških in žensk ločeno po letih
+Ugotovila sem, da povprečnono število živorojenih žensk po letih pada, prav tako tudi število živorojenih moških. Vsako leto pa je število živorojenih moških večje od števila živorojenih žensk.
+```{r graf5, echo=FALSE,fig.align='center',fig.cap='ni.prirasta.2010'}
+ggplot(tabela2014) + aes(x = kraj, y = zivorojene.zenske) + 
+  geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
+  geom_point() + geom_hline(yintercept =ziv.z.2014,color="gold")
+ggplot(tabela2014) + aes(x = kraj, y = zivorojeni.moski)+ 
+  geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
+  geom_point() + geom_hline(yintercept =ziv.m.2014,color="red")
+```
+Prvi graf prikazuje živorojene ženske v letu 2014, drugi pa živorojene moške v 2014. Vodoravna črta prikazuje povprečno število živorojenih.
+
+
+### Analiza umrlih moških in žensk ločeno po letih
+Ugotovila sem, da v povprečju vsako leto umre več žensk kot moških. Podatki po letih so približno konstantni. Vsako leto pa je število umrlih ženske večje od števila umrlih moških.
+```{r graf6, echo=FALSE,fig.align='center',fig.cap='ni.prirasta.2010'}
+ggplot(tabela2014) + aes(x = kraj, y = umrle.zenske) + 
+  geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
+  geom_point() + geom_hline(yintercept =umr.z.2014,color="yellow")
+ggplot(tabela2014) + aes(x = kraj, y = umrli.moski)+ 
+  geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
+  geom_point() + geom_hline(yintercept =umr.m.2014,color="green")
+```
+Prvi graf prikazuje umrle ženske v letu 2014, drugi pa umrle moške v 2014. Vodoravna črta prikazuje povprečno število živorojenih.
+
+### Primerjava naravnega prirasta v Sloveniji z ostalimi Evropskimi državami
+Ugotovila sem, da je imela največji povpprečni naravni prirast v letu 2010 Islandija,v letih 2011-2013 pa Turčija.
+Najmanjši navani prirast izmed Evropskih držav je imela v letih 2010 in 2011 Madžarska, v letu 2012 San marino, v letu 2013 pa Portugalska.
+Ugotovila sem, da je povprečni slovenski prirast večji od povprečnega evropskega po letih.
 
