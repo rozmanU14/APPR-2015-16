@@ -91,9 +91,8 @@ ggplot(data=tabela2010 %>% filter(velikost=="ni prirastka"), aes(x=kraj, y=skupn
 
 Prikazuje občine v letu 2010, ki so brez prirastka.
 
-
 # Analiza in vizualizacija podatkov
-```{r ainv, echo=FALSE, results='hide', message=FALSE,warning=FALSE}
+```{r vizualizacija, echo=FALSE,message=FALSE,warning=FALSE}
 source("vizualizacija/analiza.3.faza.r", encoding = "UTF-8")
 ```
 
@@ -135,26 +134,26 @@ Ugotovila sem, da je med leti 2010 in 2014 naravni prirast največji v Ljubljani
 
 ### Analiza povprečnega naravnega prirasta po letih
 Ugotovila sem, da je naravni prirast po letih od 2010 do 2013 padal,nato se 2014 spet narastel.
-```{r graf4, echo=FALSE,fig.align='center',fig.cap='ni.prirasta.2010'}
-ggplot(tabela2010) + aes(x = kraj, y = skupni.prirast) + 
-  geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
-  geom_point() + geom_hline(yintercept =povp.pr.2010,color="red")
+```{r graf4, echo=FALSE,fig.align='center',fig.cap='naravni prirast'}
+ggplot(tabela %>% filter(kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor","Ptuj","Novo mesto")),
+       aes(x = leto, y = skupni.prirast, group = kraj, color = kraj)) +
+  geom_line()
 
 ```
 
-Graf prikazuje naravni prirast v letu 2010, vodoravna črta pa povprečen prirast.
+Graf prikazuje gibanje naravnega prirasta v nekaj izmed izbranih občinah.
 
 ### Analiza živorojenih moških in žensk ločeno po letih
 Ugotovila sem, da povprečnono število živorojenih žensk po letih pada, prav tako tudi število živorojenih moških. Vsako leto pa je število živorojenih moških večje od števila živorojenih žensk.
-```{r graf5, echo=FALSE,fig.align='center',fig.cap='ni.prirasta.2010'}
-ggplot(tabela2014) + aes(x = kraj, y = zivorojene.zenske) + 
-  geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
-  geom_point() + geom_hline(yintercept =ziv.z.2014,color="gold")
-ggplot(tabela2014) + aes(x = kraj, y = zivorojeni.moski)+ 
-  geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
-  geom_point() + geom_hline(yintercept =ziv.m.2014,color="red")
+```{r graf5, echo=FALSE,fig.align='center',fig.cap='Zivorojene zenske'}
+ggplot(tabela %>% filter(kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor","Ptuj","Novo mesto")),
+       aes(x = kraj, y = zivorojene.zenske, fill = factor(leto))) +
+    geom_bar(stat = "identity", position = "dodge")
+ggplot(tabela %>% filter(kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor","Ptuj","Novo mesto")),
+       aes(x = kraj, y = zivorojeni.moski, fill = factor(leto))) +
+    geom_bar(stat = "identity", position = "dodge")
 ```
-Prvi graf prikazuje živorojene ženske v letu 2014, drugi pa živorojene moške v 2014. Vodoravna črta prikazuje povprečno število živorojenih.
+Prvi graf prikazuje gibanje števila živorojenih žensk v nekaj izmed izbranih občin, drugi pa gibanje števila živorojenih moških.
 
 ```{r razpredelnica3, echo=FALSE}
 kable(head(zivorojeni))
