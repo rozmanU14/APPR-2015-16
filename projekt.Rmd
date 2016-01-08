@@ -156,9 +156,16 @@ ggplot(tabela2014) + aes(x = kraj, y = zivorojeni.moski)+
 ```
 Prvi graf prikazuje živorojene ženske v letu 2014, drugi pa živorojene moške v 2014. Vodoravna črta prikazuje povprečno število živorojenih.
 
+```{r razpredelnica3, echo=FALSE}
+kable(head(zivorojeni))
+```
 
 ### Analiza umrlih moških in žensk ločeno po letih
 Ugotovila sem, da v povprečju vsako leto umre več žensk kot moških. Podatki po letih so približno konstantni. Vsako leto pa je število umrlih ženske večje od števila umrlih moških.
+```{r razpredelnica4, echo=FALSE}
+kable(head(umrli))
+```
+
 ```{r graf6, echo=FALSE,fig.align='center',fig.cap='ni.prirasta.2010'}
 ggplot(tabela2014) + aes(x = kraj, y = umrle.zenske) + 
   geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
