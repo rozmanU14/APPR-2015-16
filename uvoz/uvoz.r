@@ -1,16 +1,15 @@
-
 #Vektor, ki predstavlja imena stolpcev:
-nova.kolona<-c("kraj", "leto","zivorojeni moski","zivorojene zenske","umrli moski","umrle zenske","naravni prirast moski","naravni prirast zenske")
+nova.kolona<-c("kraj", "leto","zivorojeni moski","zivorojene zenske","umrli moski","umrle zenske","naravni prirast moski","naravni prirast zenske","zivorojeni.na.1000","umrli.na.1000","naravni.prirast.na.1000.prebivalcev")
 #Funkcija, ki uvozi podatke iz datoteke podatki.csv
 
 uvozi<-function(){
-    return(read.csv2(file="podatki/prirastek.csv",
-                    col.names=nova.kolona,
-                    header=FALSE,
-                    na.strings = "-",
-                    fileEncoding = "UTF-8",
-                    as.is = FALSE))
-                }
+  return(read.csv2(file="podatki/prirastek.csv",
+                   col.names=nova.kolona,
+                   header=FALSE,
+                   na.strings = "-",
+                   fileEncoding = "UTF-8",
+                   as.is = FALSE))
+}
 #Zapisemo podatke v razpredelnivo tabela
 tabela<-uvozi()
 
@@ -42,6 +41,9 @@ tabela$umrle.zenske <- as.numeric(tabela$umrle.zenske)
 tabela$umrli.moski <- as.numeric(tabela$umrli.moski)
 tabela$naravni.prirast.zenske <- as.numeric(tabela$naravni.prirast.zenske)
 tabela$naravni.prirast.moski <- as.numeric(tabela$naravni.prirast.moski)
+tabela$naravni.prirast.na.1000.prebivalcev <- as.numeric(tabela$naravni.prirast.na.1000.prebivalcev)
+tabela$zivorojeni.na.1000 <- as.numeric(tabela$zivorojeni.na.1000)
+tabela$umrli.na.1000 <- as.numeric(tabela$umrli.na.1000)
 
 
 #seštevanje dveh stolpcev in ustvarjanje novega
@@ -125,6 +127,3 @@ podatkiHTML<-podatkiHTML[-(1:7),]
 podatkiHTML<-podatkiHTML[,-(1:6)]
 podatkiHTML<-podatkiHTML[-4,]
 podatkiHTML<-podatkiHTML[-(29:31),]
-
-
-
