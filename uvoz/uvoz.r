@@ -70,10 +70,6 @@ tabela2012<- tabela[tabela[["leto"]] == "2012",]
 tabela2013<- tabela[tabela[["leto"]] == "2013",]
 tabela2014<- tabela[tabela[["leto"]] == "2014",]
 
-
-#tabela2010<-tabela["2010"]
-
-
 #Okenca, za katere ni podatka in so oznacena z "-", zamenjamo z "NA":
 tabela[tabela == "-"] <- NA
 
