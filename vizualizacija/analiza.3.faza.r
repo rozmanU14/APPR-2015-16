@@ -30,8 +30,6 @@ p + aes(x = kraj, y = naravni.prirast.moski, color = leto) + geom_point()
 
 ggplot(data=tabela2014,aes(y=umrli.moski,x =kraj),color="blue")+geom_point()+geom_point(aes(y=umrle.zenske,x=kraj),color="yellow")+geom_point()+geom_point(aes(y=skupni.prirast,x=kraj),color="orange")
 #ZEMLJEVIDI
-
-
 #tabelam dodamo Ankaran ki je na novo nastala občina
 rownames(tabela2010) <- tabela2010$kraj
 tabela2010["Ankaran",] <- rep(NA, ncol(tabela2010))
@@ -91,15 +89,26 @@ zem2<-zem1+ geom_point(data = obc , aes(x = Y_C, y = X_C, color = VELIKOST)) +
 zem3<-ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = UMRLIVOST2011),color = "grey") +
   scale_fill_gradient(low="#fded75", high= "#100f00") +
   guides(fill = guide_colorbar(title = "Umrlivost 2011")) +
-  geom_text(data = obc %>% filter(OB_IME == c("KOBILJE","HODOŠ","LJUBLJANA","MARIBOR")),
-          aes(x = Y_C, y = X_C, label = OB_IME),
-          size = 3, vjust = 2)
+  geom_text(data = obc %>% filter(OB_IME == c("BELTINCI","BRDA","LJUBLJANA","MARIBOR")),
+          aes(x = Y_C, y = X_C, label = OB_IME),          size = 3, vjust = 2)
 #Zemljevid prikazuje umrljivost v letu 2011 po občinah
+filter(tabela2011, umrli.na.1000 == max(umrli.na.1000, na.rm=TRUE)) 
+filter(tabela2011, umrli.na.1000 == min(umrli.na.1000, na.rm=TRUE)) 
+#Največjo absolutno umrljivost ima Maribor, največjo relativno pa Brda. 
+#Najmanjšo absolutno umrlivost ima Ljubljana, najmanjšo relativno pa Beltinci.
 
 zem4<-ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = RODNOST2011),color = "grey") +
   scale_fill_gradient(low="#a65353", high= "#582b2b") +
-  guides(fill = guide_colorbar(title = "Rodnost 2011"))
-#Zemljevid prikazuje rodnost v letu 2011 po občinah. 
+  guides(fill = guide_colorbar(title = "Rodnost 2011")) +
+  geom_text(data = obc %>% filter(OB_IME == c("LJUTOMER","HODOŠ")),
+                                                                   aes(x = Y_C, y = X_C, label = OB_IME),
+                                                                   size = 3, vjust = 2)
+#Zemljevid prikazuje rodnost v letu 2011 po občinah. Leta 2011 je bila največja 
+#rodnost v Ljutomerju, najmanjša pa v Hodošu.
+filter(tabela2011, zivorojeni.na.1000 == max(zivorojeni.na.1000, na.rm=TRUE)) 
+filter(tabela2011, zivorojeni.na.1000 == min(zivorojeni.na.1000, na.rm=TRUE)) 
+ 
+
 
 #Analiza največjega relativnega naravnega prirastka po letih:
 #2010:
@@ -124,15 +133,15 @@ filter(tabela2014, naravni.prirast.na.1000.prebivalcev == min(naravni.prirast.na
 
 #Povprečen naravni prirast po letih:
 #2010 = 1.532
-povp.pr.2010<-mean(tabela2010$skupni.prirast,na.rm=TRUE) /10
+povp.pr.2010<-mean(tabela2010$naravni.prirast.na.1000.prebivalcev,na.rm=TRUE) 
 #2011 = 1.539
-povp.pr.2011<-mean(tabela2011$skupni.prirast,na.rm=TRUE) /10
+povp.pr.2011<-mean(tabela2011$naravni.prirast.na.1000.prebivalcev,na.rm=TRUE) 
 #2012 = 1.264
-povp.pr.2012<- mean(tabela2012$skupni.prirast,na.rm=TRUE)/10
+povp.pr.2012<- mean(tabela2012$naravni.prirast.na.1000.prebivalcev,na.rm=TRUE)
 #2013 = 0.838
-povp.pr.2013<-mean(tabela2013$skupni.prirast,na.rm=TRUE) /10
+povp.pr.2013<-mean(tabela2013$naravni.prirast.na.1000.prebivalcev,na.rm=TRUE)
 #2014 = 0.842
-povp.pr.2014<-mena(tabela2014$skupni.prirast,na.rm=TRUE) /10
+povp.pr.2014<-mean(tabela2014$naravni.prirast.na.1000.prebivalcev,na.rm=TRUE)
 
 #Ugotovila sem, da je naravni prirast po letih od 2010 do 2013 padal,
 #nato se 2014 spet narastel.
@@ -166,8 +175,8 @@ pppodatki<-c("leto","zenske","moski")
 pppodatki$leto<- c("2010","2011","2012","2013","2014")
 pppodatki$zenske<- (c(ziv.z.2010,ziv.z.2011,ziv.z.2012,ziv.z.2013,ziv.z.2014))
 pppodatki$moski<- (c(ziv.m.2010,ziv.m.2011,ziv.z.2012,ziv.m.2013,ziv.m.2014))
-umrli=data.frame(pppodatki)
-umrli<-umrli[-(1:3)]
+rodnost=data.frame(pppodatki)
+rodnost<-rodnost[-(1:3)]
 
 
 sum(tabela$zivorojene.zenske,na.rm=TRUE) #52701
