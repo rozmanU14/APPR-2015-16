@@ -51,6 +51,9 @@ Prva tabela vsebuje stolpce:
  - prikazuje naravni prirastek moških po krajih in letih
 - naravni prirastek žensk (številska spremenljivka)
  - prikazuje naravni prirastek moških po krajih in letih
+- relativen naravni prirastek (številska spremenljivka)
+- število urmlih na 1000 prebivalcev (šteilska spremenljivka)
+- število živorojenih na 1000 prebivalcev (številska spremenljivka)
 
 
 ```{r razpredelnica1, echo=FALSE}
@@ -105,7 +108,16 @@ zem1<- ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group,
   guides(fill = guide_colorbar(title = "Naravni prirast 2011"))
 print(zem1)
 ```
-Zemljevid nam prikazuje naravni prirast v letu 2011 po občinah. Njavečji naravni prirast je v Ljubljani, najmanjši pa v Mariboru.
+Zemljevid nam prikazuje naravni prirast v letu 2011 po občinah. Največji absolutni naravni prirast je v Ljubljani, najmanjši pa v Mariboru.
+Njavečji relativni prirast je v Dol pri Ljublajni, najmanjši pa v Dravogradu.
+
+```{r graf4, echo=FALSE,fig.align='center',fig.cap='skupni prirast'}
+ggplot(tabela %>% filter(kraj %in% c("Dravograd", "Ljubljana", "Maribor","Dol pri Ljubljani")),aes(x = leto, y = naravni.prirast.na.1000.prebivalcev, group = kraj,color = kraj)) + geom_line()
+
+```
+ggplot(tabela %>% filter(kraj %in% c("Ljubljana","Maribor","Dol pri Ljubljani","Dravograd")),
++        aes(x = leto, y = naravni.prirast.na.1000.prebivalcev, group = kraj, color = kraj)) +
++     geom_line()
 
 ### Zemljevid občin spozitivnim prirastom, negativnim prirastom in občin brez prirasta
 ```{r zemljevid2, echo=FALSE, fig.align='center', fig.cap='Zemljevid naravnega prirastka v letu 2011 z velikostmi'}
@@ -122,11 +134,11 @@ Zemljevid prikazuje skupni prirast v letu 2011, s pikami pa je označena velikos
 zem3<-ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = UMRLIVOST2011),color = "grey") +
   scale_fill_gradient(low="#fded75", high= "#100f00") +
   guides(fill = guide_colorbar(title = "Umrlivost 2011")) +
-  geom_text(data = obc %>% filter(OB_IME == c("KOBILJE","HODOŠ","LJUBLJANA","MARIBOR")),
-          aes(x = Y_C, y = X_C, label = OB_IME),
-          size = 3, vjust = 2)
+  geom_text(data = obc %>% filter(OB_IME == c("BELTINCI","BRDA","LJUBLJANA","MARIBOR")),
+          aes(x = Y_C, y = X_C, label = OB_IME),          size = 3, vjust = 2)
+print(zem3)
 ```
-Zemljevid prikazuje umrlivost po občinah v letu 2011 za moške in ženske skupaj. Njavečja umrlivost tako pri ženskah kot pri moških je v Ljubljani, kar je posledica največjega števila prebivalcev.Najmanjša umrlivost pri ženskah je v kraju Hodoš, pri moških pa v kraju Kobilje.Kraji so na zemljevidu tudi označeni.
+Zemljevid prikazuje umrlivost po občinah v letu 2011 za moške in ženske skupaj. Največjo absolutno umrljivost ima Maribor, največjo relativno pa Brda.Najmanjšo absolutno umrlivost ima Ljubljana, najmanjšo relativno pa Beltinci.
 
 ### Analiza naravnega prirasta po letih
 Ugotovila sem, da je med leti 2010 in 2014 naravni prirast največji v Ljubljani in najmanjši v Mariboru.
@@ -134,7 +146,7 @@ Ugotovila sem, da je med leti 2010 in 2014 naravni prirast največji v Ljubljani
 
 ### Analiza povprečnega naravnega prirasta po letih
 Ugotovila sem, da je naravni prirast po letih od 2010 do 2013 padal,nato se 2014 spet narastel.
-```{r graf4, echo=FALSE,fig.align='center',fig.cap='naravni prirast'}
+```{r graf5, echo=FALSE,fig.align='center',fig.cap='naravni prirast'}
 ggplot(tabela %>% filter(kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor","Ptuj","Novo mesto")),
        aes(x = leto, y = skupni.prirast, group = kraj, color = kraj)) +
   geom_line()
@@ -145,7 +157,8 @@ Graf prikazuje gibanje naravnega prirasta v nekaj izmed izbranih občinah.
 
 ### Analiza živorojenih moških in žensk ločeno po letih
 Ugotovila sem, da povprečnono število živorojenih žensk po letih pada, prav tako tudi število živorojenih moških. Vsako leto pa je število živorojenih moških večje od števila živorojenih žensk.
-```{r graf5, echo=FALSE,fig.align='center',fig.cap='Zivorojene zenske'}
+
+```{r graf6, echo=FALSE,fig.align='center',fig.cap='Zivorojene zenske'}
 ggplot(tabela %>% filter(kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor","Ptuj","Novo mesto")),
        aes(x = kraj, y = zivorojene.zenske, fill = factor(leto))) +
     geom_bar(stat = "identity", position = "dodge")
@@ -158,14 +171,15 @@ Prvi graf prikazuje gibanje števila živorojenih žensk v nekaj izmed izbranih 
 ```{r razpredelnica3, echo=FALSE}
 kable(head(zivorojeni))
 ```
-
 ### Analiza umrlih moških in žensk ločeno po letih
 Ugotovila sem, da v povprečju vsako leto umre več žensk kot moških. Podatki po letih so približno konstantni. Vsako leto pa je število umrlih ženske večje od števila umrlih moških.
+
+Razpredelnica prikazuje števlo umrlih moških in žensk v letih pod 2010 do 2014
 ```{r razpredelnica4, echo=FALSE}
 kable(head(umrli))
 ```
 
-```{r graf6, echo=FALSE,fig.align='center',fig.cap='ni.prirasta.2010'}
+```{r graf7, echo=FALSE,fig.align='center',fig.cap='urmlivosr 2011'}
 ggplot(tabela2014) + aes(x = kraj, y = umrle.zenske) + 
   geom_point() +theme(axis.text.x = element_text(angle = 90, vjust = 0.5)) + 
   geom_point() + geom_hline(yintercept =umr.z.2014,color="yellow")
