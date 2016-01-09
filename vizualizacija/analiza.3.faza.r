@@ -170,11 +170,21 @@ ziv.m.2014<-mean(tabela2014$zivorojeni.moski,na.rm=TRUE)  #51.79
 #Ugotovila sem, da poprečnono število živorojenih žensk pada, prav tako tudi 
 #število živorojenih moških. Vsako leto pa je povprečno število živorojenih 
 #moških večje, od števila živorojenih žensk.
+zz10<-sum(tabela2010$zivorojene.zenske,na.rm=TRUE)
+zz11<-sum(tabela2011$zivorojene.zenske,na.rm=TRUE)
+zz12<-sum(tabela2012$zivorojene.zenske,na.rm=TRUE)
+zz13<-sum(tabela2013$zivorojene.zenske,na.rm=TRUE)
+zz14<-sum(tabela2014$zivorojene.zenske,na.rm=TRUE)
+zzz10<-sum(tabela2010$zivorojeni.moski,na.rm=TRUE)
+zzz11<-sum(tabela2010$zivorojeni.moski,na.rm=TRUE)
+zzz12<-sum(tabela2010$zivorojeni.moski,na.rm=TRUE)
+zzz13<-sum(tabela2010$zivorojeni.moski,na.rm=TRUE)
+zzz14<-sum(tabela2010$zivorojeni.moski,na.rm=TRUE)
 
 pppodatki<-c("leto","zenske","moski")
 pppodatki$leto<- c("2010","2011","2012","2013","2014")
-pppodatki$zenske<- (c(ziv.z.2010,ziv.z.2011,ziv.z.2012,ziv.z.2013,ziv.z.2014))
-pppodatki$moski<- (c(ziv.m.2010,ziv.m.2011,ziv.z.2012,ziv.m.2013,ziv.m.2014))
+pppodatki$zenske<- (c(zz10,zz11,zz12,zz13,zz14))
+pppodatki$moski<- (c(zzz10,zzz11,zzz12,zzz13,zzz14))
 rodnost=data.frame(pppodatki)
 rodnost<-rodnost[-(1:3)]
 
@@ -209,12 +219,24 @@ umr.m.2014<-mean(tabela2014$umrli.moski,na.rm=TRUE) #43.63
 sum(tabela$umrli.moski,na.rm=TRUE) #46702
 sum(tabela$umrle.zenske,na.rm=TRUE) #48083
 
+uu10<-sum(tabela2010$umrle.zenske,na.rm=TRUE)
+uu11<-sum(tabela2011$umrle.zenske,na.rm=TRUE)
+uu12<-sum(tabela2012$umrle.zenske,na.rm=TRUE)
+uu13<-sum(tabela2013$umrle.zenske,na.rm=TRUE)
+uu14<-sum(tabela2014$umrle.zenske,na.rm=TRUE)
+uuu10<-sum(tabela2010$umrli.moski,na.rm=TRUE)
+uuu11<-sum(tabela2011$umrli.moski,na.rm=TRUE)
+uuu12<-sum(tabela2012$umrli.moski,na.rm=TRUE)
+uuu13<-sum(tabela2013$umrli.moski,na.rm=TRUE)
+uuu14<-sum(tabela2014$umrli.moski,na.rm=TRUE)
 ppodatki<-c("leto","zenske","moski")
+
 ppodatki$leto<- c("2010","2011","2012","2013","2014")
-ppodatki$zenske<- (c(umr.z.2010,umr.z.2011,umr.z.2012,umr.z.2013,umr.z.2014))
-ppodatki$moski<- (c(umr.m.2010,umr.m.2011,umr.z.2012,umr.m.2013,umr.m.2014))
+ppodatki$zenske<- (c(uu10,uu11,uu12,uu13,uu14))
+ppodatki$moski<- (c(uuu10,uuu11,uuu12,uuu13,uuu14))
 umrli=data.frame(ppodatki)
 umrli<-umrli[-(1:3)]
+
 
 #Primerjava Slovenskega prirasta z ostalimi Evropskimi državami:
 
