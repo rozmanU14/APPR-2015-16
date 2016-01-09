@@ -68,7 +68,7 @@ obc <- uvozi.zemljevid("http://e-prostor.gov.si/fileadmin/BREZPLACNI_POD/RPE/OB.
                        "OB/OB", encoding = "Windows-1250")
 obc <- obc[order(as.character(obc$OB_UIME)),]
 
-obc$PRIRAST2011<-tabela2011$skupni.prirast
+obc$PRIRAST2011<-tabela2011$naravni.prirast.na.1000.prebivalcev
 obc$RODNOST2011<-tabela2011$zivorojeni.moski + tabela2011$zivorojene.zenske
 obc$UMRLIVOST2011<-tabela2011$umrli.moski + tabela2011$umrle.zenske
 obc$VELIKOST<- tabela2011$velikost
@@ -101,26 +101,26 @@ zem4<-ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, 
   guides(fill = guide_colorbar(title = "Rodnost 2011"))
 #Zemljevid prikazuje rodnost v letu 2011 po občinah. 
 
-#Analiza največjega naravnega prirastka po letih:
+#Analiza največjega relativnega naravnega prirastka po letih:
 #2010:
-filter(tabela2010, skupni.prirast == max(skupni.prirast, na.rm=TRUE)) #Lj
-filter(tabela2010, skupni.prirast == min(skupni.prirast, na.rm=TRUE)) #Mb
+filter(tabela2010, naravni.prirast.na.1000.prebivalcev == max(naravni.prirast.na.1000.prebivalcev, na.rm=TRUE)) #moravče
+filter(tabela2010, naravni.prirast.na.1000.prebivalcev == min(naravni.prirast.na.1000.prebivalcev, na.rm=TRUE)) #šmarje pri jelšah
 #2011
-filter(tabela2011, skupni.prirast == max(skupni.prirast, na.rm=TRUE)) #Lj
-filter(tabela2011, skupni.prirast == min(skupni.prirast, na.rm=TRUE)) #Mb
+filter(tabela2011, naravni.prirast.na.1000.prebivalcev == max(naravni.prirast.na.1000.prebivalcev, na.rm=TRUE)) #dol pri ljubljani
+filter(tabela2011, naravni.prirast.na.1000.prebivalcev == min(naravni.prirast.na.1000.prebivalcev, na.rm=TRUE)) #dravograd
 #2012
-filter(tabela2012, skupni.prirast == max(skupni.prirast, na.rm=TRUE)) #Lj
-filter(tabela2012, skupni.prirast == min(skupni.prirast, na.rm=TRUE)) #Mb
+filter(tabela2012, naravni.prirast.na.1000.prebivalcev == max(naravni.prirast.na.1000.prebivalcev, na.rm=TRUE)) #gorenja vas
+filter(tabela2012, naravni.prirast.na.1000.prebivalcev == min(naravni.prirast.na.1000.prebivalcev, na.rm=TRUE))  # črnomelj
 #2013
-filter(tabela2013, skupni.prirast == max(skupni.prirast, na.rm=TRUE)) #Lj
-filter(tabela2013, skupni.prirast == min(skupni.prirast, na.rm=TRUE)) #Mb
+filter(tabela2013, naravni.prirast.na.1000.prebivalcev == max(naravni.prirast.na.1000.prebivalcev, na.rm=TRUE)) #sončava
+filter(tabela2013, naravni.prirast.na.1000.prebivalcev == min(naravni.prirast.na.1000.prebivalcev, na.rm=TRUE)) #radlje ob dravi
 #2014
-filter(tabela2014, skupni.prirast == max(skupni.prirast, na.rm=TRUE)) #Lj
-filter(tabela2014, skupni.prirast == min(skupni.prirast, na.rm=TRUE)) #Mb
+filter(tabela2014, naravni.prirast.na.1000.prebivalcev == max(naravni.prirast.na.1000.prebivalcev, na.rm=TRUE)) #Škofljica
+filter(tabela2014, naravni.prirast.na.1000.prebivalcev == min(naravni.prirast.na.1000.prebivalcev, na.rm=TRUE)) #ruše
 
-
-#Ugotovila sem da je med leto 2010 in 2014 naravni
-#prirast največji v Ljubljani in najmanjši v Mariboru.
+#Ugotovila sem, da je v letih od 2010 do 2014 relatven prirast največji v občinah 
+#Moravče, Dol pri Ljubljani, Gorenja vas Sončava in Škofljica,
+#najmanši pa v občinah Šmarje pri Jelšah, Dravograd, Črnomelj, Radlje ob Dravi in Ruše.
 
 #Povprečen naravni prirast po letih:
 #2010 = 1.532
