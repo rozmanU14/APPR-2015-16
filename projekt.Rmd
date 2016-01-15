@@ -211,20 +211,18 @@ Iz grafa je razvidno da je razmerje med umrlimi moškimi in ženskami prav tako 
 nnaravni.prirast<-tabela$skupni.prirast
 lleto<-tabela$leto
 uumrli<- tabela$umrle.zenske + tabela$umrli.moski
-plot(tabela$leto,tabela$skupni.prirast, xlim=c(2010,2020),ylim=c(-100,300),
+plot(lleto,nnaravni.prirast, xlim=c(2010,2020),ylim=c(-100,300),
      xlab="Leto",ylab="Skupni naravni prirast",
      main="Napoved naravnega prirasta za Slovenijo",pch=20,col="lightblue",type="p",lwd=3.5)
-#linearna
 linearna<-lm(nnaravni.prirast~lleto)
 abline(ln,col="red")
-
-#kvadratna
 kvadratna<-lm(nnaravni.prirast~I(lleto^2)+lleto)
 curve(predict(kvp, data.frame(lleto=x)), add = TRUE, col = "green")
-
-#loess
 loep<-loess(nnaravni.prirast~lleto)
 curve(predict(loep, data.frame(lleto=x)),add=TRUE,col="blue")
-#legenda
 legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1), col = c("red","green","blue"))
 ```
+
+Graf prikazuje napoved naravnega prirasta do leta 2020. Upobljene so linearna metoda, kvadratna ter metoda loess. 
+Pri izračunu ostanov sem ugotovila, da je metoda loess najnatančnejša.
+
