@@ -7,9 +7,10 @@ output:
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
+  word_document: default
 ---
 
-```{r setup, echo=FALSE, results='hide', message=FALSE}
+```{r setup, echo=FALSE, results='hide', message=FALSE,warning=FALSE}
 # Če želimo nastaviti pisave v PDF-ju, odkomentiramo
 # in sledimo navodilom v programu.
 source("fontconfig.r", encoding = "UTF-8")
@@ -108,7 +109,7 @@ zem1<- ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group,
 print(zem1)
 ```
 Zemljevid nam prikazuje naravni prirast v letu 2011 po občinah. Največji absolutni naravni prirast je v Ljubljani, najmanjši pa v Mariboru.
-Njavečji relativni prirast je v Dol pri Ljublajni, najmanjši pa v Dravogradu.
+Največji relativni prirast je v občini Dol pri Ljublajni, najmanjši pa v Dravogradu.
 
 ```{r graf4, echo=FALSE,fig.align='center',fig.cap='skupni prirast'}
 ggplot(tabela %>% filter(kraj %in% c("Dravograd", "Ljubljana", "Maribor","Dol pri Ljubljani")),aes(x = leto, y = naravni.prirast.na.1000.prebivalcev, group = kraj,color = kraj)) + geom_line()
@@ -131,7 +132,7 @@ Zemljevid prikazuje skupni prirast v letu 2011, s pikami pa je označena velikos
 zem3<-ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = UMRLIVOST2011),color = "grey") +
   scale_fill_gradient(low="#fded75", high= "#100f00") +
   guides(fill = guide_colorbar(title = "Umrlivost 2011")) +
-  geom_text(data = obc %>% filter(OB_IME == c("BELTINCI","BRDA","LJUBLJANA","MARIBOR")),
+  geom_text(data = obc %>% filter(OB_IME %in% c("BELTINCI","BRDA","LJUBLJANA","MARIBOR")),
           aes(x = Y_C, y = X_C, label = OB_IME),          size = 3, vjust = 2)
 print(zem3)
 ```
@@ -160,13 +161,6 @@ ggplot(tabela %>% filter(kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor"
 ```
 Prvi graf prikazuje gibanje števila živorojenih žensk v nekaj izmed izbranih občin, drugi pa gibanje števila živorojenih moških.
 
-
-```{r razpredelnica3, echo=FALSE}
-kable(head(rodnost))
-```
-
-Razpredelnica prikazuje skupno rodnost vseh občin po letih ločeno glede na spol.
-
 ### Analiza umrlih moških in žensk ločeno po letih
 Ugotovila sem, da v povprečju vsako leto umre več žensk kot moških. Podatki po letih so približno konstantni. Vsako leto pa je število umrlih ženske večje od števila umrlih moških.
 
@@ -177,16 +171,60 @@ ggplot(tabela %>% filter(kraj %in% c("Brda","Kobilje","Beltinci","Brezovica","So
 ```
 Na grafu so prikazane občine, ki po izračunanih vrednostih zajemajo najnižjo oziroma najvišjo smrtnost v enem izmed let od 2010 do 2014.
 
-
-```{r razpredelnica4, echo=FALSE}
-kable(head(umrli))
-```
-
-Razpredelnica prikazuje število umrlivih po letih ločeno glede na spol. 
-
 ### Primerjava naravnega prirasta v Sloveniji z ostalimi Evropskimi državami
 
 Ugotovila sem, da je imela največji povprečni naravni prirast v letu 2010 Islandija,v letih 2011-2013 pa Turčija.
 Najmanjši navani prirast izmed Evropskih držav je imela v letih 2010 in 2011 Madžarska, v letu 2012 San marino, v letu 2013 pa Portugalska.
 Ugotovila sem, da je povprečni slovenski prirast večji od povprečnega evropskega po letih.
 
+### Napredna analiza podatkov
+```{r analiza, echo=FALSE,message=FALSE,warning=FALSE}
+source("analiza/analiza.r", encoding = "UTF-8")
+```
+V četrti fazi sem sestavila model, kako sta med sabo odvisni dve spremenljivki. Primerjala sem odvisnost živorojenih moških in žensk, umrlih moških z žen ter skupni naravni prirast žensk in moških.
+
+```{r graf8, echo=FALSE,fig.align='center',fig.cap='Odvisnost naravnega prirasta žensk in moških'}
+j<- ggplot(tabela, aes(x = naravni.prirast.moski, y = naravni.prirast.zenske)) + geom_point()
+j + geom_smooth(method = "lm")
+```
+
+Iz grafa je razvidno da je največja razpršenost podatkov pri velikih vrednostih, najbolj zgoščeni pa so podatki pri vrednostih med -50 in 100. Za prikaz sem pravtako uporabila linearno metodo.
+
+```{r graf9, echo=FALSE,fig.align='center',fig.cap='odvisnost živorojenih žensk in moških'}
+u<- ggplot(tabela, aes(x = zivorojeni.moski, y = zivorojene.zenske)) + geom_point()
+u + geom_smooth(method = "lm")
+
+```
+
+Iz grafa je razvidno, da je razmerje med živorojenimi ženskami in moškimi konstantno, brez večjih odstopanj.Njabolj zgoščeni podatki so pri majhnih prednostih. Za prikaz sem uporabila linearno metodo.
+
+```{r graf10, echo=FALSE,fig.align='center',fig.cap='odvisnost umrlih moških in žensk'}
+v<- ggplot(tabela, aes(x = umrli.moski, y = umrle.zenske)) + geom_point()
+v + geom_smooth(method = "lm")
+```
+
+Iz grafa je razvidno da je razmerje med umrlimi moškimi in ženskami prav tako konstantno pri večini vrednosti, do rahle razpršenosti podatkov pride pri večjih vrednostih. Za prikaz sem uporabila linearno metodo.
+
+### Napoved naravnega prirasta za Slovenijo
+
+```{r graf11, echo=FALSE,fig.align='center'}
+nnaravni.prirast<-tabela$skupni.prirast
+lleto<-tabela$leto
+uumrli<- tabela$umrle.zenske + tabela$umrli.moski
+plot(tabela$leto,tabela$skupni.prirast, xlim=c(2010,2020),ylim=c(-100,300),
+     xlab="Leto",ylab="Skupni naravni prirast",
+     main="Napoved naravnega prirasta za Slovenijo",pch=20,col="lightblue",type="p",lwd=3.5)
+#linearna
+linearna<-lm(nnaravni.prirast~lleto)
+abline(ln,col="red")
+
+#kvadratna
+kvadratna<-lm(nnaravni.prirast~I(lleto^2)+lleto)
+curve(predict(kvp, data.frame(lleto=x)), add = TRUE, col = "green")
+
+#loess
+loep<-loess(nnaravni.prirast~lleto)
+curve(predict(loep, data.frame(lleto=x)),add=TRUE,col="blue")
+#legenda
+legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1), col = c("red","green","blue"))
+```
