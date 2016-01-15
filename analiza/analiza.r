@@ -41,14 +41,14 @@ sapply(list(linearna, kvadratna, loep), function(x) sum(x$residuals^2))
 #NAPOVED ŠTEVILA ŽIVOROJENIH
 plot(lleto,zzivorojeni, xlim=c(2010,2020),ylim=c(0,700),
      xlab="Leto",ylab="Število živorojenih",
-     main="Napoved rasti živorojenih",pch=20,col="lightblue",type="p",lwd=3.5)
+     main="Napoved rasti živorojenih",pch=20,col="lightgreen",type="p",lwd=3.5)
 #linearna
 linearna<-lm(zzivorojeni~lleto)
 abline(ln,col="red")
 
 #kvadratna
 kvadratna<-lm(zzivorojeni~I(lleto^2)+lleto)
-curve(predict(kvp, data.frame(lleto=x)), add = TRUE, col = "green")
+curve(predict(kvp, data.frame(lleto=x)), add = TRUE, col = "orange")
 
 #loess
 loep<-loess(zzivorojeni~lleto)
