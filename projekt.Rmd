@@ -73,7 +73,7 @@ kable(head(podatkiHTML))
 
 Nato sem narisala še nekaj grafov.
 
-```{r graf1, echo=FALSE,fig.align='center',fig.cap='negativen.prirast.2010'}
+```{r graf1, echo=FALSE,fig.align='center',fig.cap='negativen.prirast.2010', warning=FALSE}
 ggplot(data=tabela2010 %>% filter(velikost=="negativen"), aes(x=kraj, y=skupni.prirast)) +  theme(axis.text.x = element_text(angle = 90, vjust = 0.5))+geom_point()
 
 
@@ -177,52 +177,57 @@ Ugotovila sem, da je imela največji povprečni naravni prirast v letu 2010 Isla
 Najmanjši navani prirast izmed Evropskih držav je imela v letih 2010 in 2011 Madžarska, v letu 2012 San marino, v letu 2013 pa Portugalska.
 Ugotovila sem, da je povprečni slovenski prirast večji od povprečnega evropskega po letih.
 
-### Napredna analiza podatkov
 ```{r analiza, echo=FALSE,message=FALSE,warning=FALSE}
 source("analiza/analiza.r", encoding = "UTF-8")
 ```
-V četrti fazi sem sestavila model, kako sta med sabo odvisni dve spremenljivki. Primerjala sem odvisnost živorojenih moških in žensk, umrlih moških z žen ter skupni naravni prirast žensk in moških.
 
-```{r graf8, echo=FALSE,fig.align='center',fig.cap='Odvisnost naravnega prirasta žensk in moških'}
+### Napredna analiza
+V četrti fazi sem naredila model, ki prikazuje odvisnost dveh spremenljivk ter to analizirala. 
+
+```{r graf8, echo=FALSE,fig.align='center',fig.cap='odvisnost naravnega prirastka med moškimi in ženskami', warning=FALSE}
+
 j<- ggplot(tabela, aes(x = naravni.prirast.moski, y = naravni.prirast.zenske)) + geom_point()
 j + geom_smooth(method = "lm")
-```
-
-Iz grafa je razvidno da je največja razpršenost podatkov pri velikih vrednostih, najbolj zgoščeni pa so podatki pri vrednostih med -50 in 100. Za prikaz sem pravtako uporabila linearno metodo.
-
-```{r graf9, echo=FALSE,fig.align='center',fig.cap='odvisnost živorojenih žensk in moških'}
-u<- ggplot(tabela, aes(x = zivorojeni.moski, y = zivorojene.zenske)) + geom_point()
-u + geom_smooth(method = "lm")
 
 ```
 
-Iz grafa je razvidno, da je razmerje med živorojenimi ženskami in moškimi konstantno, brez večjih odstopanj.Njabolj zgoščeni podatki so pri majhnih prednostih. Za prikaz sem uporabila linearno metodo.
+Graf prikazuje odvisnost naravnega prirasta moških od žensk. Iz grafa je razvidno da so podatki najbolj zgoščeni med vrednostmi -50 in 100, do največje razpršenosti podatkov pa pride pri večjih vrednostih. Za prikaz sem uporabila linearno metodo.
 
-```{r graf10, echo=FALSE,fig.align='center',fig.cap='odvisnost umrlih moških in žensk'}
-v<- ggplot(tabela, aes(x = umrli.moski, y = umrle.zenske)) + geom_point()
-v + geom_smooth(method = "lm")
-```
+### Napoved prirasta za Slovenijo.
 
-Iz grafa je razvidno da je razmerje med umrlimi moškimi in ženskami prav tako konstantno pri večini vrednosti, do rahle razpršenosti podatkov pride pri večjih vrednostih. Za prikaz sem uporabila linearno metodo.
+```{r graf9, echo=FALSE,fig.align='center',fig.cap='Napoved prirasta za Slovenijo', warning=FALSE}
 
-### Napoved naravnega prirasta za Slovenijo
-
-```{r graf11, echo=FALSE,fig.align='center'}
-nnaravni.prirast<-tabela$skupni.prirast
+nnaravni.prirast<-tabela$naravni.prirast.na.1000.prebivalcev
 lleto<-tabela$leto
-uumrli<- tabela$umrle.zenske + tabela$umrli.moski
 plot(lleto,nnaravni.prirast, xlim=c(2010,2020),ylim=c(-100,300),
-     xlab="Leto",ylab="Skupni naravni prirast",
-     main="Napoved naravnega prirasta za Slovenijo",pch=20,col="lightblue",type="p",lwd=3.5)
+     xlab="Leto",ylab="Naravni prirast na 1000 prebivalcev",
+     main="Napoved naravnega prirast za Slovenijo",pch=20,col="lightblue",type="p",lwd=3.5)
 linearna<-lm(nnaravni.prirast~lleto)
-abline(ln,col="red")
+abline(linearna,col="red")
 kvadratna<-lm(nnaravni.prirast~I(lleto^2)+lleto)
-curve(predict(kvp, data.frame(lleto=x)), add = TRUE, col = "green")
+curve(predict(kvadratna, data.frame(lleto=x)), add = TRUE, col = "green")
 loep<-loess(nnaravni.prirast~lleto)
 curve(predict(loep, data.frame(lleto=x)),add=TRUE,col="blue")
 legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1), col = c("red","green","blue"))
 ```
-
 Graf prikazuje napoved naravnega prirasta do leta 2020. Upobljene so linearna metoda, kvadratna ter metoda loess. 
 Pri izračunu ostanov sem ugotovila, da je metoda loess najnatančnejša.
+
+### Napoved rasti rodnosti
+```{r graf10, echo=FALSE,fig.align='center',fig.cap='napoved rasti rodnosti', warning=FALSE}
+
+lleto<-tabela$leto
+plot(lleto,tabela$zivorojeni.na.1000, xlim=c(2010,2020),ylim=c(-100,300),
+     xlab="Leto",ylab="Naravni prirast na 1000 prebivalcev",
+     main="Napoved naravnega prirast za Slovenijo",pch=20,col="lightblue",type="p",lwd=3.5)
+linearna<-lm(tabela$zivorojeni.na.1000~lleto)
+abline(linearna,col="red")
+kvadratna<-lm(tabela$zivorojeni.na.1000~I(lleto^2)+lleto)
+curve(predict(kvadratna, data.frame(lleto=x)), add = TRUE, col = "green")
+loep<-loess(tabela$zivorojeni.na.1000~lleto)
+curve(predict(loep, data.frame(lleto=x)),add=TRUE,col="blue")
+legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1), col = c("red","green","blue"))
+
+
+```
 
