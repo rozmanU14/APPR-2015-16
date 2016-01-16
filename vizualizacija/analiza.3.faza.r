@@ -68,7 +68,7 @@ obc <- obc[order(as.character(obc$OB_UIME)),]
 
 obc$PRIRAST2011<-tabela2011$naravni.prirast.na.1000.prebivalcev
 obc$RODNOST2011<-tabela2011$zivorojeni.moski + tabela2011$zivorojene.zenske
-obc$UMRLIVOST2011<-tabela2011$umrli.moski + tabela2011$umrle.zenske
+obc$UMRLIVOST2011<-tabela2011$umrli.na.1000
 obc$VELIKOST<- tabela2011$velikost
 obc <- pretvori.zemljevid(obc)
 
