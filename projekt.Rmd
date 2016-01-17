@@ -94,6 +94,8 @@ ggplot(data=tabela2010 %>% filter(velikost=="ni prirastka"), aes(x=kraj, y=skupn
 ```
 Prikazuje občine v letu 2010, ki so brez prirastka.
 
+***
+
 # Analiza in vizualizacija podatkov
 ```{r vizualizacija, echo=FALSE,message=FALSE,warning=FALSE}
 source("vizualizacija/analiza.3.faza.r", encoding = "UTF-8")
@@ -106,7 +108,9 @@ Preden sem začela z izdelavo zemljevidov sem v tabele občin dodala Ankaran, ki
 zem1<- ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = PRIRAST2011),color = "grey") +
   scale_fill_gradient(low="#d6b6ac", high="#090604") +
   guides(fill = guide_colorbar(title = "Naravni prirast 2011"))
-print(zem1)
+  zem5<- zem1 +geom_text(data = obc %>% filter(OB_IME %in% c("DOL PRI LJUBLJANI","DRAVOGRAD","LJUBLJANA","MARIBOR")),
+          aes(x = Y_C, y = X_C, label = OB_IME),          size = 3, vjust = 2, color="yellow")
+print(zem5)
 ```
 Zemljevid nam prikazuje naravni prirast v letu 2011 po občinah. Največji absolutni naravni prirast je v Ljubljani, najmanjši pa v Mariboru.
 Največji relativni prirast je v občini Dol pri Ljublajni, najmanjši pa v Dravogradu.
@@ -130,10 +134,10 @@ Zemljevid prikazuje skupni prirast v letu 2011, s pikami pa je označena velikos
 ### Zemljevid umrlivosti v letu 2011
 ```{r zemljevid3, echo=FALSE, fig.align='center', fig.cap='Zemljevid umrlivosti 2011'}
 zem3<-ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = UMRLIVOST2011),color = "grey") +
-  scale_fill_gradient(low="#fded75", high= "#100f00") +
+  scale_fill_gradient(low="#aefe57", high= "#344c1a") +
   guides(fill = guide_colorbar(title = "Umrlivost 2011")) +
   geom_text(data = obc %>% filter(OB_IME %in% c("BELTINCI","BRDA","LJUBLJANA","MARIBOR")),
-          aes(x = Y_C, y = X_C, label = OB_IME),          size = 3, vjust = 2)
+          aes(x = Y_C, y = X_C, label = OB_IME),          size = 3, vjust = 2, color="black")
 print(zem3)
 ```
 Zemljevid prikazuje umrlivost po občinah v letu 2011 za moške in ženske skupaj. Največjo absolutno umrljivost ima Maribor, največjo relativno pa Brda.Najmanjšo absolutno umrlivost ima Ljubljana, najmanjšo relativno pa Beltinci.
@@ -177,6 +181,8 @@ Ugotovila sem, da je imela največji povprečni naravni prirast v letu 2010 Isla
 Najmanjši navani prirast izmed Evropskih držav je imela v letih 2010 in 2011 Madžarska, v letu 2012 San marino, v letu 2013 pa Portugalska.
 Ugotovila sem, da je povprečni slovenski prirast večji od povprečnega evropskega po letih.
 
+***
+
 ```{r analiza, echo=FALSE,message=FALSE,warning=FALSE}
 source("analiza/analiza.r", encoding = "UTF-8")
 ```
@@ -184,8 +190,7 @@ source("analiza/analiza.r", encoding = "UTF-8")
 ### Napredna analiza
 V četrti fazi sem naredila model, ki prikazuje odvisnost dveh spremenljivk ter to analizirala. 
 
-Graf prikazuje napoved naravnega prirasta do leta 2020. Upobljene so linearna metoda, kvadratna ter metoda loess. 
-Pri izračunu ostanov sem ugotovila, da je metoda loess najnatančnejša.
+Graf prikazuje odvisnost naravnega prirasta moških od žensk. Iz grafa je razvidno da so podatki najbolj zgoščeni med vrednostmi -50 in 100, do največje razpršenosti podatkov pa pride pri večjih vrednostih. Za prikaz sem uporabila linearno metodo.
 
 ```{r graf8, echo=FALSE,fig.align='center',fig.cap='odvisnost naravnega prirastka med moškimi in ženskami', warning=FALSE}
 
@@ -194,11 +199,10 @@ j + geom_smooth(method = "lm")
 
 ```
 
-Graf prikazuje odvisnost naravnega prirasta moških od žensk. Iz grafa je razvidno da so podatki najbolj zgoščeni med vrednostmi -50 in 100, do največje razpršenosti podatkov pa pride pri večjih vrednostih. Za prikaz sem uporabila linearno metodo.
 
 ### Napoved prirasta za Slovenijo
 
-```{r graf9, echo=FALSE,fig.align='center',fig.cap='Napoved prirasta za Slovenijo', warning=FALSE}
+```{r graf 9, echo=FALSE,fig.align='center',fig.cap='Napoved prirasta za Slovenijo', warning=FALSE}
 
 nnaravni.prirast<-tabela$naravni.prirast.na.1000.prebivalcev
 lleto<-tabela$leto
@@ -213,15 +217,16 @@ loep<-loess(nnaravni.prirast~lleto)
 curve(predict(loep, data.frame(lleto=x)),add=TRUE,col="blue")
 legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1), col = c("red","green","blue"))
 ```
-
+Graf prikazuje napoved naravnega prirasta do leta 2020. Upobljene so linearna metoda, kvadratna ter metoda loess. 
+Pri izračunu ostanov sem ugotovila, da je metoda loess najnatančnejša.
 
 ### Napoved rasti rodnosti
-```{r graf10, echo=FALSE,fig.align='center',fig.cap='napoved rasti rodnosti', warning=FALSE}
+```{r graf 10, echo=FALSE,fig.align='center',fig.cap='napoved rasti rodnosti', warning=FALSE}
 
 lleto<-tabela$leto
 plot(lleto,tabela$zivorojeni.na.1000, xlim=c(2010,2020),ylim=c(-100,300),
-     xlab="Leto",ylab="Naravni prirast na 1000 prebivalcev",
-     main="Napoved naravnega prirast za Slovenijo",pch=20,col="lightblue",type="p",lwd=3.5)
+     xlab="Leto",ylab="Živorojeni na 1000 prebivalcev",
+     main="Napoved rodnosti za SLovenijo",pch=20,col="lightblue",type="p",lwd=3.5)
 linearna<-lm(tabela$zivorojeni.na.1000~lleto)
 abline(linearna,col="red")
 kvadratna<-lm(tabela$zivorojeni.na.1000~I(lleto^2)+lleto)
@@ -233,3 +238,24 @@ legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1)
 
 ```
 
+Predstavljeni odatki zajemajo število živorojenih na 1000 prebivalcev skupaj po občinah. Graf prikazuje napoved rodnosti do leta 2010. Po izračunu razlike sem ugotovila, da je metoda loess najučinkovitejša. 
+Iz grafa je razvidno, da bo rodnost naraščala.
+
+```{r graf 11, echo=FALSE,fig.align='center',fig.cap='Napoved umrlivosti', warning=FALSE}
+
+lleto<-tabela$leto
+plot(lleto,tabela$umrli.na.1000, xlim=c(2010,2020),ylim=c(-100,300),
+     xlab="Leto",ylab="število umrlih na 1000 prebivalcev",
+     main="Napoved umrlivosti za Slovenijo",pch=20,col="lightblue",type="p",lwd=3.5)
+linearna<-lm(tabela$umrli.na.1000~lleto)
+abline(linearna,col="red")
+kvadratna<-lm(tabela$umrli.na.1000~I(lleto^2)+lleto)
+curve(predict(kvadratna, data.frame(lleto=x)), add = TRUE, col = "green")
+loep<-loess(tabela$umrli.na.1000~lleto)
+curve(predict(loep, data.frame(lleto=x)),add=TRUE,col="blue")
+legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1), col = c("red","green","blue"))
+
+
+```
+
+Predstavljeni podatki zajemajo število umrlih na 1000 prebivalcev v vseh občinah, ločeno glede na leta. Iz grafa je razvidno, da linearna metoda napoveduje padec smrtnosti, kvadratna pa narast. Z izračunom ostankov pa ugotovimo, da je metoda loess najnatančnejša.
