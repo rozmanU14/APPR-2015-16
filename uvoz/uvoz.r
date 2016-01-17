@@ -123,3 +123,4 @@ podatkiHTML<-podatkiHTML[-(1:7),]
 podatkiHTML<-podatkiHTML[,-(1:6)]
 podatkiHTML<-podatkiHTML[-4,]
 podatkiHTML<-podatkiHTML[-(29:31),]
+
