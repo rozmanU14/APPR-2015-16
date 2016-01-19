@@ -2,11 +2,11 @@
 title: "Poročilo pri predmetu Analiza podatkov s programom R"
 author: "Urška Rožman"
 output:
-  html_document: default
   pdf_document:
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
+  html_document: default
   word_document: default
 ---
 
@@ -153,6 +153,7 @@ ggplot(tabela %>% filter(kraj %in% c("Koper/Capodistria", "Ljubljana", "Maribor"
 Graf prikazuje gibanje naravnega prirasta v nekaj izmed izbranih občinah.
 
 ### Analiza živorojenih moških in žensk ločeno po letih
+
 Ugotovila sem, da povprečnono število živorojenih žensk po letih pada, prav tako tudi število živorojenih moških. Vsako leto pa je število živorojenih moških večje od števila živorojenih žensk.
 
 ```{r graf6, echo=FALSE,fig.align='center',fig.cap='Zivorojene zenske'}
@@ -169,8 +170,8 @@ Prvi graf prikazuje gibanje števila živorojenih žensk v nekaj izmed izbranih 
 Ugotovila sem, da v povprečju vsako leto umre več žensk kot moških. Podatki po letih so približno konstantni. Vsako leto pa je število umrlih ženske večje od števila umrlih moških.
 
 
-```{r graf7, echo=FALSE,fig.align='center',fig.cap='urmlivost'}
-ggplot(tabela %>% filter(kraj %in% c("Brda","Kobilje","Beltinci","Brezovica","Solcava")),aes(x = leto, y = umrli.na.1000, group = kraj, color = kraj)) +geom_line()
+```{r graf7, echo=FALSE,fig.align='center',fig.cap='umrlivost'}
+ggplot(tabela %>% filter(kraj %in% c("Brda","Kobilje","Solcava")),aes(x = leto, y = umrli.na.1000, group = kraj, color = kraj)) +geom_line()
 
 ```
 Na grafu so prikazane občine, ki po izračunanih vrednostih zajemajo najnižjo oziroma najvišjo smrtnost v enem izmed let od 2010 do 2014.
@@ -202,7 +203,7 @@ j + geom_smooth(method = "lm")
 
 ### Napoved prirasta za Slovenijo
 
-```{r graf 9, echo=FALSE,fig.align='center',fig.cap='Napoved prirasta za Slovenijo', warning=FALSE}
+```{r graf9, echo=FALSE,fig.align='center',fig.cap='Napoved prirasta za Slovenijo', warning=FALSE}
 
 nnaravni.prirast<-tabela$naravni.prirast.na.1000.prebivalcev
 lleto<-tabela$leto
@@ -221,7 +222,7 @@ Graf prikazuje napoved naravnega prirasta do leta 2020. Upobljene so linearna me
 Pri izračunu ostanov sem ugotovila, da je metoda loess najnatančnejša.
 
 ### Napoved rasti rodnosti
-```{r graf 10, echo=FALSE,fig.align='center',fig.cap='napoved rasti rodnosti', warning=FALSE}
+```{r graf10, echo=FALSE,fig.align='center',fig.cap='napoved rasti rodnosti', warning=FALSE}
 
 lleto<-tabela$leto
 plot(lleto,tabela$zivorojeni.na.1000, xlim=c(2010,2020),ylim=c(-100,300),
@@ -241,7 +242,7 @@ legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1)
 Predstavljeni odatki zajemajo število živorojenih na 1000 prebivalcev skupaj po občinah. Graf prikazuje napoved rodnosti do leta 2010. Po izračunu razlike sem ugotovila, da je metoda loess najučinkovitejša. 
 Iz grafa je razvidno, da bo rodnost naraščala.
 
-```{r graf 11, echo=FALSE,fig.align='center',fig.cap='Napoved umrlivosti', warning=FALSE}
+```{r graf11, echo=FALSE,fig.align='center',fig.cap='Napoved umrlivosti', warning=FALSE}
 
 lleto<-tabela$leto
 plot(lleto,tabela$umrli.na.1000, xlim=c(2010,2020),ylim=c(-100,300),
