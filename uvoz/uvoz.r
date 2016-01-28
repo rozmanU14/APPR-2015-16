@@ -24,7 +24,7 @@ uredi <- function(tabela, x, y, z, max = nrow(tabela)) {
 tabela <- uredi(tabela, 1, 1, 5)
 
 #Naredimo tabelo v kateri so vse občine
-obcine <- tabela[seq(1, nrow(tabela), 5), 1]
+obcine <- tabela[seq(1, 1, 5), 1]
 #Naredimo tabelo kjer so podatki za vsako leto posebaj
 podatki <- list()
 for (i in 1:5) {
