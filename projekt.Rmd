@@ -2,11 +2,11 @@
 title: "Poročilo pri predmetu Analiza podatkov s programom R"
 author: "Urška Rožman"
 output:
+  html_document: default
   pdf_document:
     includes:
       in_header: lib/styles.sty
     latex_engine: xelatex
-  html_document: default
   word_document: default
 ---
 
@@ -184,7 +184,7 @@ Ugotovila sem, da je povprečni slovenski prirast večji od povprečnega evropsk
 
 ***
 
-```{r analiza, echo=FALSE,message=FALSE,warning=FALSE}
+```{r napredna.analiza, echo=FALSE,message=FALSE,warning=FALSE}
 source("analiza/analiza.r", encoding = "UTF-8")
 ```
 
@@ -201,62 +201,59 @@ j + geom_smooth(method = "lm")
 ```
 
 
-### Napoved prirasta za Slovenijo
 
-```{r graf9, echo=FALSE,fig.align='center',fig.cap='Napoved prirasta za Slovenijo', warning=FALSE}
+```{r graf9, echo=FALSE,fig.align='center',fig.cap='Napoved rasti rodnosti', warning=FALSE}
 
-nnaravni.prirast<-tabela$naravni.prirast.na.1000.prebivalcev
-lleto<-tabela$leto
-plot(lleto,nnaravni.prirast, xlim=c(2010,2020),ylim=c(-100,300),
-     xlab="Leto",ylab="Naravni prirast na 1000 prebivalcev",
-     main="Napoved naravnega prirast za Slovenijo",pch=20,col="lightblue",type="p",lwd=3.5)
-linearna<-lm(nnaravni.prirast~lleto)
+letoSlo<-tabelaSlo$leto
+plot(letoSlo,tabelaSlo$rodnost.na.1000, xlim=c(1997,2020),ylim=c(-50,50),
+     xlab="Leto",ylab="število živorojenih na 1000 prebivalcev",
+     main="Napoved rodnosti za Slovenijo",pch=20,col="blue",type="p",lwd=3.5)
+linearna<-lm(tabelaSlo$rodnost.na.1000~letoSlo)
 abline(linearna,col="red")
-kvadratna<-lm(nnaravni.prirast~I(lleto^2)+lleto)
-curve(predict(kvadratna, data.frame(lleto=x)), add = TRUE, col = "green")
-loep<-loess(nnaravni.prirast~lleto)
-curve(predict(loep, data.frame(lleto=x)),add=TRUE,col="blue")
-legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1), col = c("red","green","blue"))
-```
-Graf prikazuje napoved naravnega prirasta do leta 2020. Upobljene so linearna metoda, kvadratna ter metoda loess. 
-Pri izračunu ostanov sem ugotovila, da je metoda loess najnatančnejša.
-
-### Napoved rasti rodnosti
-```{r graf10, echo=FALSE,fig.align='center',fig.cap='napoved rasti rodnosti', warning=FALSE}
-
-lleto<-tabela$leto
-plot(lleto,tabela$zivorojeni.na.1000, xlim=c(2010,2020),ylim=c(-100,300),
-     xlab="Leto",ylab="Živorojeni na 1000 prebivalcev",
-     main="Napoved rodnosti za SLovenijo",pch=20,col="lightblue",type="p",lwd=3.5)
-linearna<-lm(tabela$zivorojeni.na.1000~lleto)
-abline(linearna,col="red")
-kvadratna<-lm(tabela$zivorojeni.na.1000~I(lleto^2)+lleto)
-curve(predict(kvadratna, data.frame(lleto=x)), add = TRUE, col = "green")
-loep<-loess(tabela$zivorojeni.na.1000~lleto)
-curve(predict(loep, data.frame(lleto=x)),add=TRUE,col="blue")
+kvadratna<-lm(tabelaSlo$rodnost.na.1000~I(letoSlo^2)+letoSlo)
+curve(predict(kvadratna, data.frame(letoSlo=x)), add = TRUE, col = "green")
+loep<-loess(tabelaSlo$rodnost.na.1000~letoSlo)
+curve(predict(loep, data.frame(letoSlo=x)),add=TRUE,col="blue")
 legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1), col = c("red","green","blue"))
 
 
+
 ```
+Graf predstavlja napoved umrlivost do leta 2020. Za boljšo napoved sem iz statističnega urada dodatno uvozila podatke za Slovenijo od leta 1997 naprej. Iz grafa je razvidno, da bo umlivost po letih padala.
 
-Predstavljeni odatki zajemajo število živorojenih na 1000 prebivalcev skupaj po občinah. Graf prikazuje napoved rodnosti do leta 2010. Po izračunu razlike sem ugotovila, da je metoda loess najučinkovitejša. 
-Iz grafa je razvidno, da bo rodnost naraščala.
+```{r graf10, echo=FALSE,fig.align='center',fig.cap='Napoved umrljivosti', warning=FALSE}
 
-```{r graf11, echo=FALSE,fig.align='center',fig.cap='Napoved umrlivosti', warning=FALSE}
-
-lleto<-tabela$leto
-plot(lleto,tabela$umrli.na.1000, xlim=c(2010,2020),ylim=c(-100,300),
+letoSlo<-tabelaSlo$leto
+plot(letoSlo,tabelaSlo$umrlivost.na.1000, xlim=c(1997,2020),ylim=c(-50,50),
      xlab="Leto",ylab="število umrlih na 1000 prebivalcev",
-     main="Napoved umrlivosti za Slovenijo",pch=20,col="lightblue",type="p",lwd=3.5)
-linearna<-lm(tabela$umrli.na.1000~lleto)
+     main="Napoved umrlivosti za Slovenijo",pch=20,col="blue",type="p",lwd=3.5)
+linearna<-lm(tabelaSlo$umrlivost.na.1000~letoSlo)
 abline(linearna,col="red")
-kvadratna<-lm(tabela$umrli.na.1000~I(lleto^2)+lleto)
-curve(predict(kvadratna, data.frame(lleto=x)), add = TRUE, col = "green")
-loep<-loess(tabela$umrli.na.1000~lleto)
-curve(predict(loep, data.frame(lleto=x)),add=TRUE,col="blue")
+kvadratna<-lm(tabelaSlo$umrlivost.na.1000~I(letoSlo^2)+letoSlo)
+curve(predict(kvadratna, data.frame(letoSlo=x)), add = TRUE, col = "green")
+loep<-loess(tabelaSlo$umrlivost.na.1000~letoSlo)
+curve(predict(loep, data.frame(letoSlo=x)),add=TRUE,col="blue")
 legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1), col = c("red","green","blue"))
 
 
 ```
 
-Predstavljeni podatki zajemajo število umrlih na 1000 prebivalcev v vseh občinah, ločeno glede na leta. Iz grafa je razvidno, da linearna metoda napoveduje padec smrtnosti, kvadratna pa narast. Z izračunom ostankov pa ugotovimo, da je metoda loess najnatančnejša.
+Graf prikazuje napoved umrlivosti po letih od 1997 do 2020. Iz grafa je razvidno, da je umrlivost pribljižno konstantna.
+
+
+```{r graf11, echo=FALSE,fig.align='center',fig.cap='napoved naravnega prirasta za Ljubljano', warning=FALSE}
+
+letoLj<-tabelaLjubljana$leto
+plot(letoLj,tabelaLjubljana$prirast, xlim=c(1995,2020),ylim=c(-50,100),
+     xlab="Leto",ylab="naravni prirast na naravnega prirasta za Ljubljano",pch=20,col="lightblue",type="p",lwd=3.5)
+linearna<-lm(tabelaLjubljana$prirast~letoLj)
+abline(linearna,col="red")
+kvadratna<-lm(tabelaLjubljana$prirast~I(letoLj^2)+letoLj)
+curve(predict(kvadratna, data.frame(letoLj=x)), add = TRUE, col = "green")
+loep<-loess(tabelaLjubljana$prirast~letoLj)
+curve(predict(loep, data.frame(letoLj=x)),add=TRUE,col="blue")
+legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1), col = c("red","green","blue"))
+```
+
+Ker prihajam iz Ljubljane sem se odločila narediti še podrobnejšo napoved prirasta za Ljubljano. Iz statističnega urada sem uvozila podatke o prirastu od leta 1995, napoved pa prikazuje do 2020. Iz grafa je razvidno, da bo naravni prirast v Ljubljani naraščal. 
+
