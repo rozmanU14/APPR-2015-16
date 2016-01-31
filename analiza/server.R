@@ -15,3 +15,4 @@ shinyServer(function(input, output) {
     geom_bar(stat = "identity", fill=c("indianred1","indianred2","indianred","indianred3","indianred4"),color="indianred4") + xlab("Leto") + ylab("Naravni prirast na 1000 prebivalcev")
   })
 })
+
