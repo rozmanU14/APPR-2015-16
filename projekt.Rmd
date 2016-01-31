@@ -224,9 +224,9 @@ Graf predstavlja napoved umrlivost do leta 2020. Za boljšo napoved sem iz stati
 ```{r graf10, echo=FALSE,fig.align='center',fig.cap='Napoved umrljivosti', warning=FALSE}
 
 letoSlo<-tabelaSlo$leto
-plot(letoSlo,tabelaSlo$umrlivost.na.1000, xlim=c(1997,2020),ylim=c(-50,50),
+plot(letoSlo,tabelaSlo$umrlivost.na.1000, xlim=c(1997,2023),ylim=c(-50,50),
      xlab="Leto",ylab="število umrlih na 1000 prebivalcev",
-     main="Napoved umrlivosti za Slovenijo",pch=20,col="blue",type="p",lwd=3.5)
+     main="Napoved umrlivosti za Slovenijo",pch=20,col="lightblue",type="p",lwd=3.5)
 linearna<-lm(tabelaSlo$umrlivost.na.1000~letoSlo)
 abline(linearna,col="red")
 kvadratna<-lm(tabelaSlo$umrlivost.na.1000~I(letoSlo^2)+letoSlo)
@@ -244,7 +244,7 @@ Graf prikazuje napoved umrlivosti po letih od 1997 do 2020. Iz grafa je razvidno
 ```{r graf11, echo=FALSE,fig.align='center',fig.cap='napoved naravnega prirasta za Ljubljano', warning=FALSE}
 
 letoLj<-tabelaLjubljana$leto
-plot(letoLj,tabelaLjubljana$prirast, xlim=c(1995,2020),ylim=c(-50,100),
+plot(letoLj,tabelaLjubljana$prirast, xlim=c(1995,2022),ylim=c(-50,100),
      xlab="Leto",ylab="naravni prirast na naravnega prirasta za Ljubljano",pch=20,col="lightblue",type="p",lwd=3.5)
 linearna<-lm(tabelaLjubljana$prirast~letoLj)
 abline(linearna,col="red")
