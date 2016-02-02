@@ -64,7 +64,7 @@ kable(head(tabela))
 ```
 
 
-Te stolpce sem prečistila (mesta kjer ni bilo podatka sem zamenjala z NA), izbrisala nepotrebne stolpce in vrstice ter zagotovila, da bodo številske spremenljivke res številske. Tabelo sem ločila na pet pod tabel, ki so bile ločene glede na leto. Dodala sem stolpec "skupni.prirast" ki je seštevek naravnega prirasta moških in žensk. Da bi bilo filtriranje podatkov še lažje, sem dodala še stolpec "velikost" ki je urejenostna spremenljivka in sicer klasificira prirastek kot "pozitiven","negativen" oziroma "ni prirastka".
+Te stolpce sem prečistila (mesta kjer ni bilo podatka sem zamenjala z NA), izbrisala nepotrebne stolpce in vrstice ter zagotovila, da bodo številske spremenljivke res številske. Tabelo sem ločila na pet podtabel, ki so bile ločene glede na leto. Dodala sem stolpec "skupni.prirast" ki je seštevek naravnega prirasta moških in žensk. Da bi bilo filtriranje podatkov še lažje, sem dodala še stolpec "velikost" ki je urejenostna spremenljivka in sicer klasificira prirastek kot "pozitiven","negativen" oziroma "ni prirastka".
 
 Druga tabela, ki je bila uvožena v HTML obliki vsebuje podatke o naravnem prirastku evropskih držav. Najprej sem uvozila zgolj podatke o prirastku ki so klicani z eno spremenljivko,ter jih dala v matriko, kasneje pa še podatke o letih merjenja ter državah. Ko sem prečistila nepotrebne podatke (zamenjava znakov "-","("b") z NA, ter pri vektorju držav in let napotrebne znake med željenimi državami) sem podatke, države in leta združila v eno tabelo. Ker želim analizirati le podatke od 2010-2013 sem ostale stolpce izbrisala. 
 
@@ -133,7 +133,7 @@ print(zem2)
 Zemljevid prikazuje skupni prirast v letu 2011, s pikami pa je označena velikost prirasta. Modra pika prikazuje vse občine kjer je prirast pozitiven, rdeča tiste, kjer je negativen, rumena pa občine brez prirasta.
 
 ### Zemljevid umrlivosti v letu 2011
-```{r zemljevid3, echo=FALSE, fig.align='center', fig.cap='Zemljevid umrlivosti 2011'}
+```{r zemljevid3, echo=FALSE, fig.align='center', fig.cap='Zemljevid umrljivosti 2011'}
 zem3<-ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, fill = UMRLIVOST2011),color = "grey") +
   scale_fill_gradient(low="#aefe57", high= "#344c1a") +
   guides(fill = guide_colorbar(title = "Umrlivost 2011")) +
@@ -141,7 +141,7 @@ zem3<-ggplot() + geom_polygon(data = obc, aes(x = long, y = lat, group = group, 
           aes(x = Y_C, y = X_C, label = OB_IME),          size = 3, vjust = 2, color="black")
 print(zem3)
 ```
-Zemljevid prikazuje umrlivost po občinah v letu 2011 za moške in ženske skupaj. Največjo absolutno umrljivost ima Maribor, največjo relativno pa Brda.Najmanjšo absolutno umrlivost ima Ljubljana, najmanjšo relativno pa Beltinci.
+Zemljevid prikazuje umrljivost po občinah v letu 2011 za moške in ženske skupaj. Največjo absolutno umrljivost ima Maribor, največjo relativno pa Brda.Najmanjšo absolutno umrljivost ima Ljubljana, najmanjšo relativno pa Beltinci.
 
 ### Analiza povprečnega naravnega prirasta po letih
 Ugotovila sem, da je naravni prirast po letih od 2010 do 2013 padal,nato se 2014 spet narastel.
@@ -202,6 +202,7 @@ j + geom_smooth(method = "lm")
 ```
 
 
+Spodnji graf predstavlja rodnosti do leta 2020. Za boljšo napoved sem iz statističnega urada dodatno uvozila podatke za Slovenijo od leta 1997 naprej. Iz grafa je razvidno, da bo rodnost po letih padala.
 
 ```{r graf9, echo=FALSE,fig.align='center',fig.cap='Napoved rasti rodnosti', warning=FALSE}
 
@@ -216,11 +217,10 @@ curve(predict(kvadratna, data.frame(letoSlo=x)), add = TRUE, col = "green")
 loep<-loess(tabelaSlo$rodnost.na.1000~letoSlo)
 curve(predict(loep, data.frame(letoSlo=x)),add=TRUE,col="blue")
 legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1), col = c("red","green","blue"))
-
-
-
 ```
-Graf predstavlja napoved umrlivost do leta 2020. Za boljšo napoved sem iz statističnega urada dodatno uvozila podatke za Slovenijo od leta 1997 naprej. Iz grafa je razvidno, da bo umlivost po letih padala.
+
+
+
 
 ```{r graf10, echo=FALSE,fig.align='center',fig.cap='Napoved umrljivosti', warning=FALSE}
 
@@ -239,7 +239,7 @@ legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1)
 
 ```
 
-Graf prikazuje napoved umrlivosti po letih od 1997 do 2020. Iz grafa je razvidno, da je umrlivost pribljižno konstantna.
+Graf prikazuje napoved umrljivosti po letih od 1997 do 2020. Iz grafa je razvidno, da je umrljivost pribljižno konstantna in bo tako tudi ostalo.
 
 
 ```{r graf11, echo=FALSE,fig.align='center',fig.cap='napoved naravnega prirasta za Ljubljano', warning=FALSE}
@@ -258,9 +258,6 @@ legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1)
 
 Ker prihajam iz Ljubljane sem se odločila narediti še podrobnejšo napoved prirasta za Ljubljano. Iz statističnega urada sem uvozila podatke o prirastu od leta 1995, napoved pa prikazuje do 2020. Iz grafa je razvidno, da bo naravni prirast v Ljubljani naraščal. 
 
-```{r , echo=FALSE,message=FALSE,warning=FALSE}
-source("analiza/ui.r", encoding = "UTF-8")
-```
 
 ```{r , echo=FALSE}
 shinyAppDir("analiza",options=list(width="100%",hight=500))
