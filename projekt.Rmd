@@ -257,8 +257,6 @@ legend("topright", c("Linerana metoda", "Kvadratna metoda","Loess"),lty=c(1,1,1)
 ```
 
 Ker prihajam iz Ljubljane sem se odločila narediti še podrobnejšo napoved prirasta za Ljubljano. Iz statističnega urada sem uvozila podatke o prirastu od leta 1995, napoved pa prikazuje do 2020. Iz grafa je razvidno, da bo naravni prirast v Ljubljani naraščal. 
-
-
 ```{r , echo=FALSE}
-shinyAppDir("analiza",options=list(width="100%",hight=500))
+shinyAppDir("analiza",options=list(width="100%",height=500))
 ```
